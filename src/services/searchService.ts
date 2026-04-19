@@ -1,15 +1,19 @@
 import { parse } from '@/lib/intentParser'
 import { match } from '@/lib/matchingEngine'
-import { products } from '@/data/products'
+import { products as productsMock } from '@/data/products'
 import { stores } from '@/data/stores'
 import { ParsedQuery } from '@/types/parsedQuery'
 import { ProdottoConSpiegazione } from '@/types/product'
 import { Negozio, RisultatoRicerca } from '@/types/searchResult'
+import { getProductsFromDB, getSuppliersForProduct } from '@/lib/db'
 
 export async function search(rawQuery: string): Promise<RisultatoRicerca> {
   const parsed = parse(rawQuery)
 
   const enriched = parsed
+
+  const dbProducts = await getProductsFromDB()
+  const products = dbProducts.length > 0 ? dbProducts : productsMock
 
   const matched = match(enriched, products)
 
@@ -126,6 +130,15 @@ export async function search(rawQuery: string): Promise<RisultatoRicerca> {
     } else {
       best.reasoning = (best.reasoning ?? '') + ' — buona scelta per uso generale'
     }
+  }
+
+  // arricchisci con fornitori DB (solo se stiamo usando dati DB)
+  if (dbProducts.length > 0) {
+    await Promise.all(
+      ranked.map(async (p) => {
+        p.fornitoriDB = await getSuppliersForProduct(p.id)
+      })
+    )
   }
 
   const nearbyStores = stores // mock per ora

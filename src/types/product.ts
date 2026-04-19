@@ -19,4 +19,5 @@ export interface ProdottoConSpiegazione extends Prodotto {
   spiegazione: string
   score: number
   reasoning?: string
+  fornitoriDB?: import('@/lib/db').FornitoreDB[]
 }

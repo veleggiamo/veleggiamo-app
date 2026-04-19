@@ -33,11 +33,13 @@ export default function ProductCard({ product }: { product: ProdottoConSpiegazio
 
   const level = getLevel(product.score)
   const parsed = product.reasoning ? parseReasoning(product.reasoning) : null
-  const fornitoriProdotto = (suppliersByProduct[product.id] ?? []).map(f => ({
-    ...fornitori[f.fornitoreId],
-    distanzaKm: f.distanzaKm,
-    prezzo: f.prezzo,
-  })).filter(f => f.id)
+  const fornitoriProdotto = product.fornitoriDB && product.fornitoriDB.length > 0
+    ? product.fornitoriDB
+    : (suppliersByProduct[product.id] ?? []).map(f => ({
+        ...fornitori[f.fornitoreId],
+        distanzaKm: f.distanzaKm,
+        prezzo: f.prezzo,
+      })).filter(f => f.id)
   const isCritico = product.score < 60
   const reasoningIcon = isCritico ? '❗' : '✔'
   const reasoningStyle = isCritico
