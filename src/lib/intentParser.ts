@@ -23,8 +23,8 @@ function extractLunghezza(query: string): number | null {
 }
 
 function extractCategoria(query: string): Categoria | null {
-  if (/ancora|anchor|ancoraggio/.test(query)) return 'ancora'
-  if (/autopilot|pilota\s*auto|pilota\s+automatico/.test(query)) return 'autopilota'
-  if (/batter|solar|energia|pannello/.test(query)) return 'energia'
+  if (/ancora|anchor|ancoraggio|rocna|lewmar|delta|danforth|cqr|bruce/.test(query)) return 'ancora'
+  if (/autopilot|pilota\s*auto|pilota\s+automatico|raymarine|simrad|garmin\s*autopilot|b&g/.test(query)) return 'autopilota'
+  if (/batter|solar|energia|pannello|victron|agm|lifepo|gel\s*batter/.test(query)) return 'energia'
   return null
 }
