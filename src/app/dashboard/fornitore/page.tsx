@@ -79,7 +79,7 @@ export default function DashboardFornitore() {
 
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Dashboard Fornitore</h1>
-          <p className="text-sm text-gray-500 mt-1">Carica il tuo catalogo prodotti in formato CSV</p>
+          <p className="text-sm text-gray-500 mt-1">Carica il tuo catalogo prodotti</p>
         </div>
 
         {/* UPLOAD */}
@@ -100,7 +100,7 @@ export default function DashboardFornitore() {
               disabled={!file || loading}
               className="w-fit bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm font-medium px-6 py-2.5 rounded-xl transition"
             >
-              {loading ? 'Caricamento...' : 'Carica CSV'}
+              {loading ? 'Caricamento...' : 'Carica'}
             </button>
           </form>
 
