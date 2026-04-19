@@ -136,18 +136,20 @@ export default function ProductCard({ product }: { product: ProdottoConSpiegazio
       </div>
 
       {/* IMMAGINE DESTRA */}
-      <div className="w-80 min-h-[320px] shrink-0 bg-white flex items-center justify-center overflow-hidden border-l border-gray-100">
-        <img
-          src={product.immagine}
-          alt={product.nome}
-          className="w-full h-full object-contain p-4"
-          onError={(e) => {
-            const t = e.currentTarget
-            t.style.display = 'none'
-            t.nextElementSibling!.removeAttribute('hidden')
-          }}
-        />
-        <span hidden className="text-gray-300 text-xs text-center px-4">{product.nome}</span>
+      <div className="w-80 min-h-[320px] shrink-0 bg-gray-50 flex items-center justify-center overflow-hidden border-l border-gray-100">
+        {product.immagine ? (
+          <img
+            src={product.immagine}
+            alt={product.nome}
+            className="w-full h-full object-contain p-4"
+            onError={(e) => {
+              const t = e.currentTarget
+              t.style.display = 'none'
+              t.nextElementSibling!.removeAttribute('hidden')
+            }}
+          />
+        ) : null}
+        <span hidden={!!product.immagine} className="text-gray-300 text-sm text-center px-4">📷 Nessuna immagine</span>
       </div>
 
     </div>
