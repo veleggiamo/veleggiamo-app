@@ -93,7 +93,7 @@ export async function getSuppliersForProduct(productId: string): Promise<Fornito
 
   const { data: suppliersData, error: sErr } = await supabase
     .from('suppliers')
-    .select('id, nome, indirizzo, telefono, email, sito')
+    .select('id, nome, indirizzo, telefono, email')
     .in('id', ids)
 
   console.log('[DB] suppliersData:', JSON.stringify(suppliersData), 'error:', sErr?.message)
@@ -106,7 +106,7 @@ export async function getSuppliersForProduct(productId: string): Promise<Fornito
     indirizzo: s.indirizzo ?? '',
     telefono: s.telefono ?? '',
     email: s.email ?? '',
-    sito: s.sito ?? undefined,
+    sito: undefined,
     distanzaKm: 0,
     prezzo: prezzoMap[s.id] ?? 0,
   }))
