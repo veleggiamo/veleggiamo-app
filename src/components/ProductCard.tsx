@@ -98,14 +98,16 @@ export default function ProductCard({ product }: { product: ProdottoConSpiegazio
           <div className="text-base font-semibold text-gray-900">
             {product.prezzo ? `€${product.prezzo}` : ''}
           </div>
-          <a
-            href={product.linkAcquisto}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
-          >
-            Scopri prodotto →
-          </a>
+          {product.linkAcquisto && (
+            <a
+              href={product.linkAcquisto}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
+            >
+              Scopri prodotto →
+            </a>
+          )}
         </div>
 
         {/* FORNITORI */}
