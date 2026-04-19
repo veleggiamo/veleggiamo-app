@@ -45,7 +45,7 @@ export async function getProductsFromDB(): Promise<Prodotto[]> {
     const supabase = getSupabase()
     const { data, error } = await supabase
       .from('supplier_products')
-      .select('product_id, prezzo, disponibile, products(id, nome, categoria, marca, specs)')
+      .select('product_id, prezzo, disponibile, products!product_id(id, nome, categoria, marca, specs)')
       .eq('disponibile', true)
 
     if (error) {
@@ -79,7 +79,7 @@ export async function getSuppliersForProduct(productId: string): Promise<Fornito
     const supabase = getSupabase()
     const { data, error } = await supabase
       .from('supplier_products')
-      .select('prezzo, suppliers(id, nome, indirizzo, telefono, email, sito)')
+      .select('prezzo, suppliers!supplier_id(id, nome, indirizzo, telefono, email, sito)')
       .eq('product_id', productId)
       .eq('disponibile', true)
 
