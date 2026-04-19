@@ -75,47 +75,34 @@ export async function getProductsFromDB(): Promise<Prodotto[]> {
 }
 
 export async function getSuppliersForProduct(productId: string): Promise<FornitoreDB[]> {
-  try {
-    const supabase = getSupabase()
+  const supabase = getSupabase()
 
-    // query 1: prendi supplier_id e prezzo
-    const { data: spRows, error: spError } = await supabase
-      .from('supplier_products')
-      .select('supplier_id, prezzo')
-      .eq('product_id', productId)
-      .eq('disponibile', true)
+  const { data: spRows } = await supabase
+    .from('supplier_products')
+    .select('supplier_id, prezzo')
+    .eq('product_id', productId)
+    .eq('disponibile', true)
 
-    if (spError || !spRows || spRows.length === 0) {
-      if (spError) console.error('[DB] supplier_products error:', spError.message)
-      return []
-    }
+  if (!spRows || spRows.length === 0) return []
 
-    const supplierIds = spRows.map((r: any) => r.supplier_id)
-    const prezzoMap = Object.fromEntries(spRows.map((r: any) => [r.supplier_id, r.prezzo]))
+  const ids = spRows.map((r: any) => r.supplier_id)
+  const prezzoMap = Object.fromEntries(spRows.map((r: any) => [r.supplier_id, r.prezzo]))
 
-    // query 2: prendi dettagli fornitori
-    const { data: suppliersData, error: sError } = await supabase
-      .from('suppliers')
-      .select('id, nome, indirizzo, telefono, email, sito')
-      .in('id', supplierIds)
+  const { data: suppliersData } = await supabase
+    .from('suppliers')
+    .select('id, nome, indirizzo, telefono, email, sito')
+    .in('id', ids)
 
-    if (sError || !suppliersData) {
-      if (sError) console.error('[DB] suppliers error:', sError.message)
-      return []
-    }
+  if (!suppliersData) return []
 
-    return suppliersData.map((s: any) => ({
-      id: s.id,
-      nome: s.nome,
-      indirizzo: s.indirizzo ?? '',
-      telefono: s.telefono ?? '',
-      email: s.email ?? '',
-      sito: s.sito ?? undefined,
-      distanzaKm: 0,
-      prezzo: prezzoMap[s.id] ?? 0,
-    }))
-  } catch (e) {
-    console.error('[DB] getSuppliersForProduct exception:', e)
-    return []
-  }
+  return suppliersData.map((s: any) => ({
+    id: s.id,
+    nome: s.nome,
+    indirizzo: s.indirizzo ?? '',
+    telefono: s.telefono ?? '',
+    email: s.email ?? '',
+    sito: s.sito ?? undefined,
+    distanzaKm: 0,
+    prezzo: prezzoMap[s.id] ?? 0,
+  }))
 }
