@@ -12,6 +12,9 @@ export default async function RisultatiPage({
 
   return (
     <main className="p-6 flex flex-col gap-6">
+      <a href="/" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-800 transition w-fit">
+        ← Torna alla ricerca
+      </a>
       <h1 className="text-2xl font-bold">Risultati</h1>
 
       {!query && <p>Nessuna query</p>}
