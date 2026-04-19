@@ -47,10 +47,20 @@ export default function PerFornitoriPage() {
 
       {/* DEMO WIDGET */}
       <section className="px-6 py-20">
-        <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">Provalo adesso</h2>
-          <p className="text-slate-500 mb-8 text-sm">Questo è esattamente quello che vedono i tuoi clienti sul tuo sito</p>
-          <div id="veleggiamo-widget-demo" className="text-left"></div>
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-slate-900 mb-3">Provalo adesso</h2>
+            <p className="text-slate-500 text-sm">Esattamente quello che vedono i tuoi clienti sul tuo sito</p>
+          </div>
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+            <div className="text-xs text-slate-400 mb-4 flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-red-400 inline-block"></span>
+              <span className="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span>
+              <span className="w-3 h-3 rounded-full bg-green-400 inline-block"></span>
+              <span className="ml-2">preview — sito del fornitore</span>
+            </div>
+            <div id="veleggiamo-widget-demo"></div>
+          </div>
           <script
             dangerouslySetInnerHTML={{
               __html: `

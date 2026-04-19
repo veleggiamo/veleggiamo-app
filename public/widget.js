@@ -6,7 +6,7 @@
   const containerId = script?.getAttribute('data-container') || 'veleggiamo-widget'
 
   const CSS = `
-    #vlg-widget { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; }
+    #vlg-widget { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; width: 100%; }
     #vlg-widget * { box-sizing: border-box; margin: 0; padding: 0; }
     .vlg-box { border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
     .vlg-header { background: #1d4ed8; padding: 16px 20px; }
