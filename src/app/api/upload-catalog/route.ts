@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Papa from 'papaparse'
+import * as XLSX from 'xlsx'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -7,12 +8,26 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-interface CsvRow {
+interface Row {
   nome: string
   categoria: string
   marca: string
   prezzo: string
   disponibile: string
+}
+
+function parseFile(buffer: ArrayBuffer, filename: string): Row[] {
+  const isExcel = filename.endsWith('.xlsx') || filename.endsWith('.xls')
+
+  if (isExcel) {
+    const workbook = XLSX.read(buffer, { type: 'array' })
+    const sheet = workbook.Sheets[workbook.SheetNames[0]]
+    return XLSX.utils.sheet_to_json<Row>(sheet, { defval: '' })
+  }
+
+  const text = new TextDecoder().decode(buffer)
+  const { data } = Papa.parse<Row>(text, { header: true, skipEmptyLines: true })
+  return data
 }
 
 export async function POST(req: NextRequest) {
@@ -23,23 +38,14 @@ export async function POST(req: NextRequest) {
   if (!file) return NextResponse.json({ error: 'File mancante' }, { status: 400 })
   if (!supplierId) return NextResponse.json({ error: 'supplier_id mancante' }, { status: 400 })
 
-  const text = await file.text()
-
-  const { data, errors } = Papa.parse<CsvRow>(text, {
-    header: true,
-    skipEmptyLines: true,
-  })
-
-  if (errors.length > 0) {
-    return NextResponse.json({ error: 'CSV non valido', details: errors }, { status: 400 })
-  }
+  const buffer = await file.arrayBuffer()
+  const rows = parseFile(buffer, file.name)
 
   const results = { inserted: 0, updated: 0, errors: [] as string[] }
 
-  for (const row of data) {
+  for (const row of rows) {
     if (!row.nome) continue
 
-    // trova o crea il prodotto
     let productId: string
 
     const { data: existing } = await supabase
@@ -65,7 +71,6 @@ export async function POST(req: NextRequest) {
       productId = created.id
     }
 
-    // crea o aggiorna supplier_products
     const { error: spError } = await supabase
       .from('supplier_products')
       .upsert(
@@ -73,7 +78,7 @@ export async function POST(req: NextRequest) {
           supplier_id: supplierId,
           product_id: productId,
           prezzo: parseFloat(row.prezzo) || null,
-          disponibile: row.disponibile?.toLowerCase() !== 'false',
+          disponibile: String(row.disponibile).toLowerCase() !== 'false',
           updated_at: new Date().toISOString(),
         },
         { onConflict: 'supplier_id,product_id' }

@@ -25,7 +25,11 @@
       "Bash(git branch *)",
       "Bash(git remote *)",
       "Bash(git push *)",
-      "Bash(gh *)"
+      "Bash(gh *)",
+      "Read(//c/Users/Admin/.vercel/**)",
+      "Read(//c/Users/Admin/AppData/Roaming/vercel/**)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('rootDirectory'\\), d.get\\('name'\\)\\)\")",
+      "Bash(git commit *)"
     ]
   }
 }

@@ -86,12 +86,12 @@ export default function DashboardFornitore() {
         <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
           <h2 className="text-base font-semibold text-gray-800 mb-1">Carica catalogo</h2>
           <p className="text-xs text-gray-400 mb-4">
-            Formato CSV richiesto: <code className="bg-gray-100 px-1 rounded">nome,categoria,marca,prezzo,disponibile</code>
+            Formati supportati: <strong>Excel (.xlsx, .xls)</strong> o CSV — colonne: <code className="bg-gray-100 px-1 rounded">nome, categoria, marca, prezzo, disponibile</code>
           </p>
           <form onSubmit={handleUpload} className="flex flex-col gap-3">
             <input
               type="file"
-              accept=".csv"
+              accept=".csv,.xlsx,.xls"
               onChange={e => setFile(e.target.files?.[0] ?? null)}
               className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-medium hover:file:bg-blue-100"
             />
