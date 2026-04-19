@@ -2,10 +2,12 @@ import { createClient } from '@supabase/supabase-js'
 import { Prodotto } from '@/types/product'
 import { Categoria } from '@/types/parsedQuery'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
 
 export interface FornitoreDB {
   id: string
@@ -18,24 +20,15 @@ export interface FornitoreDB {
   prezzo: number
 }
 
-// Converte un record Supabase in Prodotto compatibile col motore
-function toProduct(row: {
-  product_id: string
-  prezzo: number | null
-  products: {
-    id: string
-    nome: string
-    categoria: string
-    marca: string
-    specs: Record<string, unknown> | null
-  }
-}): Prodotto {
-  const specs = (row.products.specs ?? {}) as Record<string, string | number>
+function toProduct(row: any): Prodotto {
+  const p = Array.isArray(row.products) ? row.products[0] : row.products
+  if (!p) throw new Error('no product')
+  const specs = (p.specs ?? {}) as Record<string, string | number>
   return {
-    id: row.products.id,
-    nome: row.products.nome,
-    categoria: row.products.categoria as Categoria,
-    marca: row.products.marca ?? '',
+    id: p.id,
+    nome: p.nome,
+    categoria: p.categoria as Categoria,
+    marca: p.marca ?? '',
     prezzo: row.prezzo ?? 0,
     specs,
     compatibilita: {
@@ -48,52 +41,72 @@ function toProduct(row: {
 }
 
 export async function getProductsFromDB(): Promise<Prodotto[]> {
-  const { data, error } = await supabase
-    .from('supplier_products')
-    .select(`
-      product_id,
-      prezzo,
-      disponibile,
-      products (id, nome, categoria, marca, specs)
-    `)
-    .eq('disponibile', true)
+  try {
+    const supabase = getSupabase()
+    const { data, error } = await supabase
+      .from('supplier_products')
+      .select('product_id, prezzo, disponibile, products(id, nome, categoria, marca, specs)')
+      .eq('disponibile', true)
 
-  if (error || !data || data.length === 0) return []
-
-  // deduplicazione: un prodotto può avere più fornitori, prendi prezzo minimo
-  const map = new Map<string, typeof data[0]>()
-  for (const row of data) {
-    const existing = map.get(row.product_id)
-    if (!existing || (row.prezzo ?? 0) < (existing.prezzo ?? 0)) {
-      map.set(row.product_id, row)
+    if (error) {
+      console.error('[DB] getProductsFromDB error:', error.message)
+      return []
     }
-  }
+    if (!data || data.length === 0) return []
 
-  return Array.from(map.values()).map(toProduct)
+    const map = new Map<string, any>()
+    for (const row of data) {
+      const pid = row.product_id
+      const existing = map.get(pid)
+      if (!existing || (row.prezzo ?? 0) < (existing.prezzo ?? 0)) {
+        map.set(pid, row)
+      }
+    }
+
+    const result: Prodotto[] = []
+    for (const row of map.values()) {
+      try { result.push(toProduct(row)) } catch { /* skip malformed row */ }
+    }
+    return result
+  } catch (e) {
+    console.error('[DB] getProductsFromDB exception:', e)
+    return []
+  }
 }
 
 export async function getSuppliersForProduct(productId: string): Promise<FornitoreDB[]> {
-  const { data, error } = await supabase
-    .from('supplier_products')
-    .select(`
-      prezzo,
-      suppliers (id, nome, indirizzo, telefono, email, sito)
-    `)
-    .eq('product_id', productId)
-    .eq('disponibile', true)
+  try {
+    const supabase = getSupabase()
+    const { data, error } = await supabase
+      .from('supplier_products')
+      .select('prezzo, suppliers(id, nome, indirizzo, telefono, email, sito)')
+      .eq('product_id', productId)
+      .eq('disponibile', true)
 
-  if (error || !data) return []
+    if (error) {
+      console.error('[DB] getSuppliersForProduct error:', error.message)
+      return []
+    }
+    if (!data) return []
 
-  return data
-    .filter(row => row.suppliers)
-    .map(row => ({
-      id: (row.suppliers as any).id,
-      nome: (row.suppliers as any).nome,
-      indirizzo: (row.suppliers as any).indirizzo ?? '',
-      telefono: (row.suppliers as any).telefono ?? '',
-      email: (row.suppliers as any).email ?? '',
-      sito: (row.suppliers as any).sito ?? undefined,
-      distanzaKm: 0,
-      prezzo: row.prezzo ?? 0,
-    }))
+    return data
+      .map((row: any) => {
+        const s = Array.isArray(row.suppliers) ? row.suppliers[0] : row.suppliers
+        if (!s) return null
+        return {
+          id: s.id,
+          nome: s.nome,
+          indirizzo: s.indirizzo ?? '',
+          telefono: s.telefono ?? '',
+          email: s.email ?? '',
+          sito: s.sito ?? undefined,
+          distanzaKm: 0,
+          prezzo: row.prezzo ?? 0,
+        }
+      })
+      .filter(Boolean) as FornitoreDB[]
+  } catch (e) {
+    console.error('[DB] getSuppliersForProduct exception:', e)
+    return []
+  }
 }
