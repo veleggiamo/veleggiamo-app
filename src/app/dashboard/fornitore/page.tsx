@@ -18,7 +18,7 @@ const SUPPLIER_ID_TEST = 'daceb4df-cce7-407a-94df-c6f97a036e67'
 export default function DashboardFornitore() {
   const [file, setFile] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState<{ inserted?: number; updated?: number; errors?: string[] } | null>(null)
+  const [result, setResult] = useState<{ ok?: boolean; inserted?: number; updated?: number; errors?: string[] } | null>(null)
   const [products, setProducts] = useState<Product[]>([])
   const [loadingProducts, setLoadingProducts] = useState(true)
 
