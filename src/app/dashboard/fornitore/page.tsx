@@ -13,7 +13,7 @@ interface Product {
   updated_at: string
 }
 
-const SUPPLIER_ID_TEST = 'inserisci-qui-uuid-fornitore'
+const SUPPLIER_ID_TEST = 'daceb4df-cce7-407a-94df-c6f97a036e67'
 
 export default function DashboardFornitore() {
   const [file, setFile] = useState<File | null>(null)
