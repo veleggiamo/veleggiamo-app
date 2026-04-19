@@ -77,34 +77,43 @@ export async function getProductsFromDB(): Promise<Prodotto[]> {
 export async function getSuppliersForProduct(productId: string): Promise<FornitoreDB[]> {
   try {
     const supabase = getSupabase()
-    const { data, error } = await supabase
+
+    // query 1: prendi supplier_id e prezzo
+    const { data: spRows, error: spError } = await supabase
       .from('supplier_products')
-      .select('prezzo, suppliers!supplier_id(id, nome, indirizzo, telefono, email, sito)')
+      .select('supplier_id, prezzo')
       .eq('product_id', productId)
       .eq('disponibile', true)
 
-    if (error) {
-      console.error('[DB] getSuppliersForProduct error:', error.message)
+    if (spError || !spRows || spRows.length === 0) {
+      if (spError) console.error('[DB] supplier_products error:', spError.message)
       return []
     }
-    if (!data) return []
 
-    return data
-      .map((row: any) => {
-        const s = Array.isArray(row.suppliers) ? row.suppliers[0] : row.suppliers
-        if (!s) return null
-        return {
-          id: s.id,
-          nome: s.nome,
-          indirizzo: s.indirizzo ?? '',
-          telefono: s.telefono ?? '',
-          email: s.email ?? '',
-          sito: s.sito ?? undefined,
-          distanzaKm: 0,
-          prezzo: row.prezzo ?? 0,
-        }
-      })
-      .filter(Boolean) as FornitoreDB[]
+    const supplierIds = spRows.map((r: any) => r.supplier_id)
+    const prezzoMap = Object.fromEntries(spRows.map((r: any) => [r.supplier_id, r.prezzo]))
+
+    // query 2: prendi dettagli fornitori
+    const { data: suppliersData, error: sError } = await supabase
+      .from('suppliers')
+      .select('id, nome, indirizzo, telefono, email, sito')
+      .in('id', supplierIds)
+
+    if (sError || !suppliersData) {
+      if (sError) console.error('[DB] suppliers error:', sError.message)
+      return []
+    }
+
+    return suppliersData.map((s: any) => ({
+      id: s.id,
+      nome: s.nome,
+      indirizzo: s.indirizzo ?? '',
+      telefono: s.telefono ?? '',
+      email: s.email ?? '',
+      sito: s.sito ?? undefined,
+      distanzaKm: 0,
+      prezzo: prezzoMap[s.id] ?? 0,
+    }))
   } catch (e) {
     console.error('[DB] getSuppliersForProduct exception:', e)
     return []
