@@ -48,10 +48,19 @@ function matchAncora(query: ParsedQuery, products: Prodotto[]): ProdottoConSpieg
   for (const product of products) {
     if (product.categoria !== 'ancora') continue
 
-    const peso = product.specs.peso as number
+    const pesoRaw = product.specs.peso
+    const peso = typeof pesoRaw === 'number' && !isNaN(pesoRaw) ? pesoRaw : null
     let score = 0
     let spiegazione = ''
     let reasoning = ''
+
+    if (peso === null) {
+      score = 40
+      spiegazione = `Ancora compatibile con barca da ${label} — verifica il peso con il fornitore`
+      reasoning = `Prodotto disponibile per barca da ${valore}m`
+      risultati.push(applyConfidence(product, score, spiegazione, reasoning, query))
+      continue
+    }
 
     if (peso >= min && peso <= max) {
       const distanza = Math.abs(peso - pesoIdeale) / tolleranza

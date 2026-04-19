@@ -14,6 +14,7 @@ interface Row {
   marca: string
   prezzo: string
   disponibile: string
+  [key: string]: string
 }
 
 function parseFile(buffer: ArrayBuffer, filename: string): Row[] {
@@ -58,9 +59,17 @@ export async function POST(req: NextRequest) {
     if (existing) {
       productId = existing.id
     } else {
+      const baseFields = new Set(['nome', 'categoria', 'marca', 'prezzo', 'disponibile'])
+      const specs: Record<string, string | number> = {}
+      for (const [k, v] of Object.entries(row)) {
+        if (!baseFields.has(k) && v !== '') {
+          specs[k] = isNaN(Number(v)) ? v : Number(v)
+        }
+      }
+
       const { data: created, error } = await supabase
         .from('products')
-        .insert({ nome: row.nome, categoria: row.categoria, marca: row.marca })
+        .insert({ nome: row.nome, categoria: row.categoria, marca: row.marca, specs })
         .select('id')
         .single()
 
