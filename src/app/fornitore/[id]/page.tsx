@@ -1,7 +1,20 @@
-import { fornitori } from '@/data/suppliers'
-import { products } from '@/data/products'
+import { createClient } from '@supabase/supabase-js'
+import { products as productsMock } from '@/data/products'
 import FornitoreForm from '@/components/FornitoreForm'
 import Link from 'next/link'
+
+async function getFornitore(id: string) {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+  const { data } = await supabase
+    .from('suppliers')
+    .select('id, nome, indirizzo, telefono, email')
+    .eq('id', id)
+    .maybeSingle()
+  return data
+}
 
 export default async function FornitoreePage({
   params,
@@ -13,8 +26,8 @@ export default async function FornitoreePage({
   const { id } = await params
   const { product: productId } = await searchParams
 
-  const fornitore = fornitori[id]
-  const prodotto = productId ? products.find(p => p.id === productId) : null
+  const fornitore = await getFornitore(id)
+  const prodotto = productId ? productsMock.find(p => p.id === productId) : null
 
   if (!fornitore) {
     return (
@@ -64,21 +77,6 @@ export default async function FornitoreePage({
                 <div className="text-sm font-medium text-gray-900">{fornitore.email}</div>
               </div>
             </a>
-
-            {fornitore.sito && (
-              <a
-                href={fornitore.sito}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition"
-              >
-                <span className="text-lg">🌐</span>
-                <div>
-                  <div className="text-xs text-gray-400">Sito web</div>
-                  <div className="text-sm font-medium text-blue-600">{fornitore.sito}</div>
-                </div>
-              </a>
-            )}
           </div>
         </div>
 
