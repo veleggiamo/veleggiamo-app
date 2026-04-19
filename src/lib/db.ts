@@ -77,26 +77,21 @@ export async function getProductsFromDB(): Promise<Prodotto[]> {
 export async function getSuppliersForProduct(productId: string): Promise<FornitoreDB[]> {
   const supabase = getSupabase()
 
-  const { data: spRows, error: spErr } = await supabase
+  const { data: spRows } = await supabase
     .from('supplier_products')
     .select('supplier_id, prezzo')
     .eq('product_id', productId)
     .eq('disponibile', true)
-
-  console.log('[DB] getSuppliersForProduct productId:', productId)
-  console.log('[DB] spRows:', JSON.stringify(spRows), 'error:', spErr?.message)
 
   if (!spRows || spRows.length === 0) return []
 
   const ids = spRows.map((r: any) => r.supplier_id)
   const prezzoMap = Object.fromEntries(spRows.map((r: any) => [r.supplier_id, r.prezzo]))
 
-  const { data: suppliersData, error: sErr } = await supabase
+  const { data: suppliersData } = await supabase
     .from('suppliers')
     .select('id, nome, indirizzo, telefono, email')
     .in('id', ids)
-
-  console.log('[DB] suppliersData:', JSON.stringify(suppliersData), 'error:', sErr?.message)
 
   if (!suppliersData) return []
 
