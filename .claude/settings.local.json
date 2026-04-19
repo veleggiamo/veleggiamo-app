@@ -30,7 +30,30 @@
       "Read(//c/Users/Admin/AppData/Roaming/vercel/**)",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('rootDirectory'\\), d.get\\('name'\\)\\)\")",
       "Bash(git commit *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(python3 *)",
+      "WebFetch(domain:www.simrad-yachting.com)",
+      "WebFetch(domain:www.unimarine.it)",
+      "WebFetch(domain:www.ovstore.it)",
+      "WebFetch(domain:www.manconi.it)",
+      "WebFetch(domain:www.boemarine.com)",
+      "WebFetch(domain:www.amazon.it)",
+      "WebFetch(domain:www.defender.com)",
+      "WebFetch(domain:www.marinestore.co.uk)",
+      "WebFetch(domain:www.vela.it)",
+      "WebFetch(domain:www.fisheriessupply.com)",
+      "WebFetch(domain:www.marinesuperstore.com)",
+      "WebFetch(domain:www.boatclick.co)",
+      "WebFetch(domain:www.stevestonmarine.com)",
+      "WebFetch(domain:www.thegpsstore.com)",
+      "WebFetch(domain:users.rocna.com)",
+      "WebFetch(domain:www.hodgesmarine.com)",
+      "WebFetch(domain:wintronelectronics.com)",
+      "Bash(npm list *)",
+      "Bash(mkdir -p \"/c/Users/Admin/Veleggiamo/src/app/sign-in/[[...sign-in]]\")",
+      "Bash(mkdir -p \"/c/Users/Admin/Veleggiamo/src/app/sign-up/[[...sign-up]]\")",
+      "Bash(npx vercel *)",
+      "Bash(npx shadcn@latest init --yes)"
     ]
   }
 }
