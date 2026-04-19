@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { getSuppliersForProduct } from '@/lib/db'
 
 export async function GET() {
   const supabase = createClient(
@@ -25,9 +26,12 @@ export async function GET() {
     .from('suppliers')
     .select('id, nome')
 
+  const suppliersViaFunction = await getSuppliersForProduct(productId)
+
   return NextResponse.json({
     allSupplierProducts: { count: all?.length ?? 0, error: e1?.message, sample: all?.slice(0, 2) },
     byProductId: { count: byProduct?.length ?? 0, error: e2?.message, data: byProduct },
     allSuppliers: { count: allSuppliers?.length ?? 0, error: e3?.message, data: allSuppliers },
+    suppliersViaFunction,
   })
 }
