@@ -99,7 +99,7 @@ export default function DashboardFornitore() {
             <h1 className="text-2xl font-bold text-gray-900">Dashboard Fornitore</h1>
             <p className="text-sm text-gray-500 mt-0.5">{supplierNome || user.primaryEmailAddress?.emailAddress}</p>
           </div>
-          <UserButton afterSignOutUrl="/" />
+          <UserButton />
         </div>
 
         {!supplierId && (
