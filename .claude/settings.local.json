@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest veleggiamo --typescript --app --yes)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(node -e \"const {parse} = require\\('./src/lib/intentParser.ts'\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(xargs -I{} mv {} \"C:/Users/Admin/Veleggiamo/\")",
+      "WebSearch",
+      "WebFetch(domain:rocna.com)",
+      "WebFetch(domain:www.raymarine.com)",
+      "WebFetch(domain:defender.com)",
+      "WebFetch(domain:www.westmarine.com)",
+      "WebFetch(domain:www.svb.de)",
+      "WebFetch(domain:www.svb24.com)",
+      "WebFetch(domain:www.victronenergy.com)",
+      "WebFetch(domain:www.lewmar.com)",
+      "Bash(vercel *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}
