@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo Widget - Nautica Genova</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f4f8; padding: 40px 20px; }
+    .site-header { background: #0f172a; color: white; padding: 16px 24px; border-radius: 12px; margin-bottom: 32px; }
+    .site-header h1 { font-size: 20px; }
+    .site-header p { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+    .site-content { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 900px; margin: 0 auto; }
+    .site-about { background: white; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; }
+    .site-about h2 { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+    .site-about p { font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 8px; }
+    .embed-note { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; margin-top: 16px; font-size: 12px; color: #1e40af; }
+    code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+  </style>
+</head>
+<body>
+
+<div style="max-width:900px; margin:0 auto;">
+  <div class="site-header">
+    <h1>Nautica Genova</h1>
+    <p>Via del Porto 12 · +39 010 123 4567 · dropengoworld@gmail.com</p>
+  </div>
+
+  <div class="site-content">
+    <div class="site-about">
+      <h2>Chi siamo</h2>
+      <p>Nautica Genova è il punto di riferimento per l'attrezzatura navale in Liguria dal 1985.</p>
+      <p>Ancore, autopiloti, batterie, cordame e tutto il necessario per la tua barca.</p>
+      <p>Vieni a trovarci in negozio o contattaci per disponibilità e preventivi.</p>
+
+      <div class="embed-note">
+        ℹ️ <strong>Codice da incollare nel sito del fornitore:</strong><br><br>
+        <code>&lt;div id="veleggiamo-widget"&gt;&lt;/div&gt;</code><br>
+        <code>&lt;script src="https://veleggiamo.vercel.app/widget.js" data-supplier="daceb4df-cce7-407a-94df-c6f97a036e67"&gt;&lt;/script&gt;</code>
+      </div>
+    </div>
+
+    <!-- WIDGET VELEGGIAMO -->
+    <div id="veleggiamo-widget"></div>
+    <script src="/widget.js" data-supplier="daceb4df-cce7-407a-94df-c6f97a036e67"></script>
+  </div>
+</div>
+
+</body>
+</html>
