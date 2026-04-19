@@ -74,6 +74,37 @@ export async function getProductsFromDB(): Promise<Prodotto[]> {
   }
 }
 
+export async function searchProductsByName(query: string): Promise<Prodotto[]> {
+  try {
+    const supabase = getSupabase()
+    const words = query.toLowerCase().trim().split(/\s+/).filter(w => w.length > 2)
+    if (words.length === 0) return []
+
+    const { data, error } = await supabase
+      .from('supplier_products')
+      .select('product_id, prezzo, disponibile, products!product_id(id, nome, categoria, marca, specs)')
+      .eq('disponibile', true)
+
+    if (error || !data) return []
+
+    const seen = new Set<string>()
+    const results: Prodotto[] = []
+
+    for (const row of data) {
+      const p = Array.isArray(row.products) ? row.products[0] : row.products
+      if (!p || seen.has(p.id)) continue
+      const nameLower = (p.nome + ' ' + (p.marca ?? '')).toLowerCase()
+      if (words.some(w => nameLower.includes(w))) {
+        seen.add(p.id)
+        try { results.push(toProduct(row)) } catch { /* skip */ }
+      }
+    }
+    return results
+  } catch {
+    return []
+  }
+}
+
 export async function getSuppliersForProduct(productId: string): Promise<FornitoreDB[]> {
   const supabase = getSupabase()
 

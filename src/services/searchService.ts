@@ -5,12 +5,30 @@ import { stores } from '@/data/stores'
 import { ParsedQuery } from '@/types/parsedQuery'
 import { ProdottoConSpiegazione } from '@/types/product'
 import { Negozio, RisultatoRicerca } from '@/types/searchResult'
-import { getProductsFromDB, getSuppliersForProduct } from '@/lib/db'
+import { getProductsFromDB, getSuppliersForProduct, searchProductsByName } from '@/lib/db'
 
 export async function search(rawQuery: string): Promise<RisultatoRicerca> {
   const parsed = parse(rawQuery)
-
   const enriched = parsed
+  const nearbyStores = stores
+
+  // Ricerca per nome prodotto specifico
+  const nameMatches = await searchProductsByName(rawQuery)
+  if (nameMatches.length > 0) {
+    const results = await Promise.all(
+      nameMatches.map(async (p) => {
+        const fornitoriDB = await getSuppliersForProduct(p.id)
+        return {
+          ...p,
+          score: 100,
+          spiegazione: `Prodotto trovato: ${p.nome}`,
+          reasoning: `Corrispondenza diretta con il prodotto cercato`,
+          fornitoriDB,
+        } as ProdottoConSpiegazione
+      })
+    )
+    return { query: rawQuery, parsedQuery: enriched, results, stores: nearbyStores }
+  }
 
   const dbProducts = await getProductsFromDB()
   const products = dbProducts.length > 0 ? dbProducts : productsMock
@@ -140,8 +158,6 @@ export async function search(rawQuery: string): Promise<RisultatoRicerca> {
       })
     )
   }
-
-  const nearbyStores = stores // mock per ora
 
   return {
     query: rawQuery,
