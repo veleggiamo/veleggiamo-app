@@ -53,7 +53,8 @@
       "Bash(mkdir -p \"/c/Users/Admin/Veleggiamo/src/app/sign-in/[[...sign-in]]\")",
       "Bash(mkdir -p \"/c/Users/Admin/Veleggiamo/src/app/sign-up/[[...sign-up]]\")",
       "Bash(npx vercel *)",
-      "Bash(npx shadcn@latest init --yes)"
+      "Bash(npx shadcn@latest init --yes)",
+      "Bash(npx jest *)"
     ]
   }
 }

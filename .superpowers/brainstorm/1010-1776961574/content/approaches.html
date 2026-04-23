@@ -1,0 +1,49 @@
+<h2>3 approcci per costruire Veleggiamo.com</h2>
+<p class="subtitle">Scegli la direzione — poi definiamo il design dettagliato</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Sito editoriale con link affiliati manuali</h3>
+      <p><strong>Come funziona:</strong> Scrivi articoli su barche, coste, natura. In ogni articolo inserisci link affiliati a Viator/GetYourGuide copiati manualmente dal loro portale affiliati.</p>
+      <p><strong>Tech:</strong> Next.js SSG + MDX per gli articoli. Zero API esterne.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pro</h4><ul><li>Lanci in 2 settimane</li><li>Zero dipendenze API</li><li>Massima semplicità</li></ul></div>
+        <div class="cons"><h4>Contro</h4><ul><li>Catalogo gite statico</li><li>Prezzi/disponibilità non aggiornati</li><li>Scalabilità limitata</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B ⭐ Consigliato</div>
+    <div class="content">
+      <h3>Content Hub + Catalogo gite via API affiliati</h3>
+      <p><strong>Come funziona:</strong> Articoli editoriali scritti da te (o con AI) + catalogo gite aggiornato automaticamente tramite Viator API e GetYourGuide API. Le gite mostrate sono sempre live, con prezzi reali.</p>
+      <p><strong>Tech:</strong> Next.js ISR + Viator Partner API + GYG Partner API + Supabase per cache + schema.org per Google.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pro</h4><ul><li>Catalogo sempre aggiornato</li><li>Rich snippet su Google (stelle, prezzi)</li><li>Scala senza lavoro manuale</li><li>Riutilizza il codebase esistente</li></ul></div>
+        <div class="cons"><h4>Contro</h4><ul><li>Richiede approvazione API Viator/GYG (1-2 sett.)</li><li>2-4 settimane per il lancio</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Content Hub + API + Newsletter + Community</h3>
+      <p><strong>Come funziona:</strong> Come B, ma aggiunge una newsletter settimanale ("La gita del weekend"), pagine di recensioni utenti, e possibilità per operatori locali di segnalare le loro gite (non prenotabili sul sito, ma linkati).</p>
+      <p><strong>Tech:</strong> Come B + Resend/Mailchimp per email + tabella reviews su Supabase.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pro</h4><ul><li>Massimo engagement e ritorno utenti</li><li>Community fidelizzata = SEO boost (dwell time)</li><li>Newsletter = canale diretto senza dipendere da Google</li></ul></div>
+        <div class="cons"><h4>Contro</h4><ul><li>4-6 settimane di sviluppo</li><li>Newsletter richiede contenuto costante</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="background:#fff3cd;border-radius:8px;padding:14px;margin-top:20px;border-left:4px solid #ffc107;font-size:13px">
+  <strong>Nota sul codebase esistente:</strong> Il progetto Next.js + Supabase che hai già costruito è una base ottima. Va riprogettato nelle pagine (non più fornitori/prodotti) ma l'infrastruttura — auth, DB, API routes — si riutilizza quasi tutta.
+</div>
