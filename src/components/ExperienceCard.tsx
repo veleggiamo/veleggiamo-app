@@ -1,3 +1,4 @@
+'use client'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -25,7 +26,7 @@ export function ExperienceCard({ experience }: { experience: Experience }) {
       <CardContent className="p-4 flex flex-col gap-3 flex-1">
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-gray-900 text-sm leading-snug">{experience.title}</h3>
-          <Badge variant="secondary" className="shrink-0 text-xs">{experience.price}</Badge>
+          <Badge variant="outline" className="shrink-0 text-xs">{experience.price}</Badge>
         </div>
         <div className="flex items-center gap-3 text-xs text-gray-500">
           <span>⭐ {experience.rating} ({experience.reviewCount})</span>
