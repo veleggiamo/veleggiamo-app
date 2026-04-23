@@ -1,37 +1,36 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
-import "./globals.css";
-import "leaflet/dist/leaflet.css";
+import { Navbar } from '@/components/Navbar'
+import { Footer } from '@/components/Footer'
+import { siteConfig } from '@/lib/config/site'
+import './globals.css'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
-  title: "Veleggiamo",
-  description: "Trova l'attrezzatura giusta per la tua barca a vela",
-};
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.tagline,
+  openGraph: {
+    images: [siteConfig.defaultOgImage],
+    siteName: siteConfig.name,
+    locale: 'it_IT',
+  },
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html
-        lang="it"
-        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      >
-        <body className="min-h-full flex flex-col">{children}</body>
+      <html lang="it" className={inter.variable}>
+        <body className="min-h-screen flex flex-col font-sans antialiased">
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }
