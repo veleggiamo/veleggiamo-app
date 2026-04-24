@@ -158,10 +158,15 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
       <div className="max-w-4xl mx-auto px-6 py-10 space-y-14">
 
         <section>
+          <div className="flex flex-wrap gap-x-5 gap-y-1.5 mb-4 text-sm text-gray-500">
+            <span>⭐ 10.000+ recensioni verificate</span>
+            <span>🔒 Prenotazione sicura</span>
+            <span>💸 Cancellazione gratuita su molte esperienze</span>
+          </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-1">
             Le migliori gite in barca in {data.meta.name}
           </h2>
-          <p className="text-sm text-gray-500 mb-6">Selezionate dalla redazione</p>
+          <p className="text-sm text-gray-500 mb-6">Selezionate dalla redazione · ordinate per popolarità</p>
           {topExperiences.length > 0 ? (
             <ExperienceCardGrid experiences={topExperiences} destination={slug} />
           ) : (
