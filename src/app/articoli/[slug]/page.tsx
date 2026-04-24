@@ -64,8 +64,8 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
     if (items.length === 0) return null
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 not-prose my-6">
-        {items.map(exp => (
-          <ExperienceCard key={exp.slug} experience={exp} />
+        {items.map((exp, i) => (
+          <ExperienceCard key={exp.slug} experience={exp} index={i} />
         ))}
       </div>
     )

@@ -142,8 +142,8 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
             </h2>
             <p className="text-sm text-gray-500 mb-6">Selezionate dalla redazione</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {topExperiences.map(exp => (
-                <ExperienceCard key={exp.slug} experience={exp} />
+              {topExperiences.map((exp, i) => (
+                <ExperienceCard key={exp.slug} experience={exp} index={i} />
               ))}
             </div>
           </section>
@@ -157,8 +157,8 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-5">Altre esperienze</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {remainingExperiences.map(exp => (
-                <ExperienceCard key={exp.slug} experience={exp} />
+              {remainingExperiences.map((exp, i) => (
+                <ExperienceCard key={exp.slug} experience={exp} index={topExperiences.length + i} />
               ))}
             </div>
           </section>
