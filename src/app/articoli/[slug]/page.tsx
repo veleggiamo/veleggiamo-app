@@ -103,7 +103,7 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
         <article className="flex-1 min-w-0">
           {data.meta.coverImage && (
             <div className="relative h-64 md:h-80 rounded-xl overflow-hidden bg-sky-100 mb-8">
-              <img src={data.meta.coverImage} alt={data.meta.title} className="w-full h-full object-cover" />
+              <img src={data.meta.coverImage} alt={data.meta.title} className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
             </div>
           )}
 

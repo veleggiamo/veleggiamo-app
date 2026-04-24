@@ -12,6 +12,7 @@ export function ArticleCard({ article }: { article: ArticleMeta }) {
               src={article.coverImage}
               alt={article.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
             />
           )}
         </div>

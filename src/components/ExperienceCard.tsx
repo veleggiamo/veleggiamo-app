@@ -20,6 +20,7 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
             src={experience.image}
             alt={experience.title}
             className="w-full h-full object-cover"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
           />
         )}
         {experience.badge && (
