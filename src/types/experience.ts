@@ -16,6 +16,7 @@ export type Experience = {
   includes?: string[]
   departureInfo?: string
   featured?: boolean
+  badge?: string
   cancellation?: string
   isIdealFor?: string[]
   notIdealFor?: string[]

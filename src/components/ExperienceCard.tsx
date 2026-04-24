@@ -22,18 +22,21 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
             className="w-full h-full object-cover"
           />
         )}
+        {experience.badge && (
+          <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
+            {experience.badge}
+          </span>
+        )}
       </div>
       <CardContent className="p-4 flex flex-col gap-3 flex-1">
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-gray-900 text-sm leading-snug">{experience.title}</h3>
           <Badge variant="outline" className="shrink-0 text-xs">{experience.price}</Badge>
         </div>
-        <div className="flex items-center gap-3 text-xs text-gray-500">
-          <span>
-            ⭐ {experience.rating}{' '}
-            <span className="text-gray-400">
-              ({experience.reviewCount.toLocaleString('it-IT')} recensioni verificate)
-            </span>
+        <div className="text-xs text-gray-500">
+          ⭐ {experience.rating}{' '}
+          <span className="text-gray-400">
+            ({experience.reviewCount.toLocaleString('it-IT')} recensioni su {SOURCE_LABEL[experience.affiliateSource]})
           </span>
         </div>
         <div className="flex items-center gap-3 text-xs text-gray-400">
@@ -49,7 +52,7 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
             className="block"
           >
             <Button className="w-full bg-sky-600 hover:bg-sky-700 text-white text-sm h-9">
-              Controlla prezzo e disponibilità →
+              Vedi disponibilità e prezzo aggiornato
             </Button>
           </a>
           <p className="text-xs text-green-600 text-center font-medium">

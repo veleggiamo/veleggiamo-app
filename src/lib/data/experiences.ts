@@ -18,6 +18,7 @@ const EXPERIENCES: Experience[] = [
     affiliateSource: 'viator',
     order: 1,
     featured: true,
+    badge: '🔥 Più prenotata alle Egadi',
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
   {
@@ -36,6 +37,7 @@ const EXPERIENCES: Experience[] = [
     affiliateSource: 'getyourguide',
     order: 2,
     featured: true,
+    badge: '⛵ Tour top a Taormina',
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
   {
@@ -110,6 +112,7 @@ const EXPERIENCES: Experience[] = [
     affiliateSource: 'getyourguide',
     order: 1,
     featured: true,
+    badge: '🔥 N°1 in Sardegna',
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
   {
@@ -128,6 +131,7 @@ const EXPERIENCES: Experience[] = [
     affiliateSource: 'viator',
     order: 2,
     featured: true,
+    badge: '⛵ Top nel Golfo di Orosei',
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
   {
@@ -202,6 +206,7 @@ const EXPERIENCES: Experience[] = [
     affiliateSource: 'viator',
     order: 1,
     featured: true,
+    badge: '🔥 Tour top a Positano',
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
@@ -222,6 +227,7 @@ const EXPERIENCES: Experience[] = [
     affiliateSource: 'viator',
     order: 1,
     featured: true,
+    badge: '⛵ Top in Laguna',
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 ]
