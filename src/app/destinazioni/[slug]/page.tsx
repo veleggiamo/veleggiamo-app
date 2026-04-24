@@ -16,10 +16,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const data = await getDestination(slug)
   if (!data) return {}
+  const experiences = await import('@/lib/data/experiences').then(m => m.getExperiences({ destination: slug }))
+  const title = `Gite in Barca in ${data.meta.name} 2026 — Esperienze e Guide`
+  const description = `Scopri le migliori gite in barca in ${data.meta.name}: zone, prezzi 2026, quando andare e ${experiences.length > 0 ? `${experiences.length} esperienze selezionate` : 'guide pratiche'}.`
   return {
-    title: `Gite in barca in ${data.meta.name}`,
-    description: `Scopri le migliori gite in barca in ${data.meta.name}. Esperienze selezionate, guide pratiche e tutto quello che devi sapere.`,
+    title,
+    description,
     alternates: { canonical: `${siteConfig.domain}/destinazioni/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${siteConfig.domain}/destinazioni/${slug}`,
+      type: 'website',
+      images: [
+        {
+          url: data.meta.coverImage || siteConfig.defaultOgImage,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
   }
 }
 
@@ -51,7 +67,7 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
   const [data, experiences, articles] = await Promise.all([
     getDestination(slug),
     getExperiences({ destination: slug }),
-    getArticles({ destination: slug, limit: 3 }),
+    getArticles({ destination: slug }),
   ])
 
   if (!data) notFound()

@@ -19,13 +19,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const title = data.meta.seo?.title ?? data.meta.title
   const description = data.meta.seo?.description ?? data.meta.description
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: `${siteConfig.domain}/articoli/${slug}` },
     openGraph: {
       title,
       description,
-      images: data.meta.coverImage ? [data.meta.coverImage] : [siteConfig.defaultOgImage],
+      url: `${siteConfig.domain}/articoli/${slug}`,
+      type: 'article',
+      images: [
+        {
+          url: data.meta.coverImage || siteConfig.defaultOgImage,
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
   }
 }
@@ -40,7 +48,15 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
     getArticles({ destination: data.meta.destination, limit: 3 }),
   ])
 
-  const otherArticles = relatedArticles.filter(a => a.slug !== slug).slice(0, 2)
+  const hubSlug = `gite-barca-${data.meta.destination}`
+  const otherArticles = relatedArticles
+    .filter(a => a.slug !== slug)
+    .sort((a, b) => {
+      if (a.slug === hubSlug) return -1
+      if (b.slug === hubSlug) return 1
+      return 0
+    })
+    .slice(0, 4)
   const toc = extractToc(data.source)
 
   const { content } = await compileMDX({
@@ -50,8 +66,24 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
 
   const displayDate = data.meta.updatedAt ?? data.meta.publishedAt
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: data.meta.title,
+    description: data.meta.seo?.description ?? data.meta.description,
+    datePublished: data.meta.publishedAt,
+    dateModified: data.meta.updatedAt ?? data.meta.publishedAt,
+    author: { '@type': 'Organization', name: 'Veleggiamo', url: siteConfig.domain },
+    image: data.meta.coverImage,
+    url: `${siteConfig.domain}/articoli/${slug}`,
+  }
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <div className="flex flex-col lg:flex-row gap-10">
 
         {/* MAIN */}

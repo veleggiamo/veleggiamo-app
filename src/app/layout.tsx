@@ -9,6 +9,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://veleggiamo.it'),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     images: [siteConfig.defaultOgImage],
     siteName: siteConfig.name,
     locale: 'it_IT',
+    type: 'website',
   },
 }
 
