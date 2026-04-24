@@ -151,8 +151,8 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
                 Esperienze consigliate in {data.meta.destination.replace(/-/g, ' ')}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {experiences.map(exp => (
-                  <ExperienceCard key={exp.slug} experience={exp} />
+                {experiences.map((exp, i) => (
+                  <ExperienceCard key={exp.slug} experience={exp} index={i} />
                 ))}
               </div>
             </section>

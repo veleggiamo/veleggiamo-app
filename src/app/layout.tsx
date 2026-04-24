@@ -9,7 +9,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://veleggiamo.it'),
+  metadataBase: new URL('https://veleggiamo.com'),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
