@@ -4,8 +4,7 @@ import Link from 'next/link'
 import { compileMDX } from 'next-mdx-remote/rsc'
 import { getArticle, getAllArticleSlugs, getArticles, extractToc } from '@/lib/content/articles'
 import { getExperiences } from '@/lib/data/experiences'
-import { ExperienceCard } from '@/components/ExperienceCard'
-import { ExperienceListTracker } from '@/components/ExperienceListTracker'
+import { ExperienceCardGrid } from '@/components/ExperienceCardGrid'
 import { ExperienceEmptyState } from '@/components/ExperienceEmptyState'
 import { ArticleCard } from '@/components/ArticleCard'
 import { siteConfig } from '@/lib/config/site'
@@ -65,12 +64,11 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
     const items = experiences.slice(0, limit)
     if (items.length === 0) return <ExperienceEmptyState />
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 not-prose my-6">
-        <ExperienceListTracker destination={data.meta.destination} count={items.length} experiences={items} />
-        {items.map((exp, i) => (
-          <ExperienceCard key={exp.slug} experience={exp} index={i} />
-        ))}
-      </div>
+      <ExperienceCardGrid
+        experiences={items}
+        destination={data.meta.destination}
+        className="grid grid-cols-1 md:grid-cols-3 gap-5 not-prose my-6"
+      />
     )
   }
 
@@ -153,12 +151,7 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
               <h2 className="text-xl font-bold text-gray-900 mb-5">
                 Esperienze consigliate in {data.meta.destination.replace(/-/g, ' ')}
               </h2>
-              <ExperienceListTracker destination={data.meta.destination} count={experiences.length} experiences={experiences} />
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {experiences.map((exp, i) => (
-                  <ExperienceCard key={exp.slug} experience={exp} index={i} />
-                ))}
-              </div>
+              <ExperienceCardGrid experiences={experiences} destination={data.meta.destination} />
             </section>
           )}
         </article>

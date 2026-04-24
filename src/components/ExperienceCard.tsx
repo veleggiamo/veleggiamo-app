@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { trackAffiliateClick, trackViewItem, trackViewCta, getCtaVariant } from '@/lib/tracking'
-import { incrementVisibleCards } from '@/lib/visibleCards'
+import { trackAffiliateClick, trackViewItem, getCtaVariant } from '@/lib/tracking'
 import type { Experience } from '@/types/experience'
 
 const SOURCE_LABEL: Record<Experience['affiliateSource'], string> = {
@@ -33,11 +32,14 @@ export function ExperienceCard({
   onVisible?: () => void
 }) {
   const [variant, setVariant] = useState<'A' | 'B'>('A')
+  const variantRef = useRef<'A' | 'B'>('A')
   const cardRef = useRef<HTMLDivElement>(null)
   const viewFired = useRef(false)
 
   useEffect(() => {
-    setVariant(getCtaVariant())
+    const v = getCtaVariant()
+    setVariant(v)
+    variantRef.current = v
   }, [])
 
   useEffect(() => {
@@ -48,15 +50,12 @@ export function ExperienceCard({
       (entries) => {
         if (entries[0].isIntersecting && !viewFired.current) {
           viewFired.current = true
-          const v = getCtaVariant()
-          trackViewItem(experience, index ?? 0, v)
-          trackViewCta(experience, index ?? 0, v)
-          incrementVisibleCards()
+          trackViewItem(experience, index ?? 0, variantRef.current, CTA_LABELS[variantRef.current])
           onVisible?.()
           observer.disconnect()
         }
       },
-      { threshold: 0.5 },
+      { threshold: 0.25 },
     )
 
     observer.observe(el)

@@ -4,8 +4,7 @@ import { compileMDX } from 'next-mdx-remote/rsc'
 import { getDestination, getAllDestinationSlugs } from '@/lib/content/destinations'
 import { getExperiences } from '@/lib/data/experiences'
 import { getArticles } from '@/lib/content/articles'
-import { ExperienceCard } from '@/components/ExperienceCard'
-import { ExperienceListTracker } from '@/components/ExperienceListTracker'
+import { ExperienceCardGrid } from '@/components/ExperienceCardGrid'
 import { ExperienceEmptyState } from '@/components/ExperienceEmptyState'
 import { ArticleCard } from '@/components/ArticleCard'
 import { siteConfig } from '@/lib/config/site'
@@ -79,17 +78,14 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
     options: { parseFrontmatter: true },
   })
 
-  const MOCK_CTR = 0.05
-  const ranked = [...experiences].sort((a, b) => {
-    const scoreA = a.rating * Math.log10(a.reviewCount || 1) + MOCK_CTR
-    const scoreB = b.rating * Math.log10(b.reviewCount || 1) + MOCK_CTR
-    return scoreB - scoreA
-  })
+  const ranked = [...experiences].sort((a, b) =>
+    (b.rating * Math.log10(b.reviewCount || 1)) - (a.rating * Math.log10(a.reviewCount || 1))
+  )
 
   if (process.env.NODE_ENV === 'development') {
     console.log('[ranking_score]', ranked.map(e => ({
       slug: e.slug,
-      score: (e.rating * Math.log10(e.reviewCount || 1) + MOCK_CTR).toFixed(3),
+      score: (e.rating * Math.log10(e.reviewCount || 1)).toFixed(3),
     })))
   }
 
@@ -157,14 +153,7 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
           </h2>
           <p className="text-sm text-gray-500 mb-6">Selezionate dalla redazione</p>
           {topExperiences.length > 0 ? (
-            <>
-              <ExperienceListTracker destination={slug} count={experiences.length} experiences={experiences} />
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {topExperiences.map((exp, i) => (
-                  <ExperienceCard key={exp.slug} experience={exp} index={i} />
-                ))}
-              </div>
-            </>
+            <ExperienceCardGrid experiences={topExperiences} destination={slug} />
           ) : (
             <ExperienceEmptyState />
           )}
@@ -177,11 +166,7 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
         {remainingExperiences.length > 0 && (
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-5">Altre esperienze</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {remainingExperiences.map((exp, i) => (
-                <ExperienceCard key={exp.slug} experience={exp} index={topExperiences.length + i} />
-              ))}
-            </div>
+            <ExperienceCardGrid experiences={remainingExperiences} destination={slug} startIndex={topExperiences.length} />
           </section>
         )}
 

@@ -140,7 +140,7 @@ export function trackAffiliateClick(
   }
 }
 
-export function trackViewItem(experience: Experience, index: number, ctaVariant: 'A' | 'B'): void {
+export function trackViewItem(experience: Experience, index: number, ctaVariant: 'A' | 'B', ctaText?: string): void {
   if (typeof window === 'undefined') return
 
   const item = getItemPayload(experience, index)
@@ -149,34 +149,12 @@ export function trackViewItem(experience: Experience, index: number, ctaVariant:
   window.gtag?.('event', 'view_item', {
     ...item,
     cta_variant: ctaVariant,
+    cta_text: ctaText ?? '',
     ...debug,
   })
 
   if (IS_DEV) {
-    console.log('[view_item]', { item_id: item.item_id, index, cta_variant: ctaVariant })
-  }
-}
-
-export function trackViewCta(
-  experience: Experience,
-  position: number,
-  ctaVariant: 'A' | 'B',
-): void {
-  if (typeof window === 'undefined') return
-
-  const debug = IS_DEV ? { debug_mode: true } : {}
-  const event = {
-    cta_variant: ctaVariant,
-    experience_slug: experience.slug,
-    position,
-    page_path: window.location.pathname,
-    ...debug,
-  }
-
-  window.gtag?.('event', 'view_cta', event)
-
-  if (IS_DEV) {
-    console.log('[view_cta]', event)
+    console.log('[view_item]', { item_id: item.item_id, index, cta_variant: ctaVariant, cta_text: ctaText })
   }
 }
 
