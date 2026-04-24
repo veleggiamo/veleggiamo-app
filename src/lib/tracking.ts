@@ -51,25 +51,27 @@ function getTrafficSource(): 'organic' | 'social' | 'direct' {
 }
 
 function lsGet(key: string): string | null {
-  try {
-    return localStorage.getItem(key)
-  } catch {
-    return null
-  }
+  try { return localStorage.getItem(key) } catch { return null }
 }
 
 function lsSet(key: string, value: string): void {
-  try {
-    localStorage.setItem(key, value)
-  } catch {
-    // localStorage unavailable (private mode, storage full)
-  }
+  try { localStorage.setItem(key, value) } catch { /* private mode / storage full */ }
 }
 
 export function parsePrice(price: string): number {
   const cleaned = price.replace(/[€$£\s.]/g, '').replace(',', '.').replace(/[^\d.]/g, '')
   const num = parseFloat(cleaned)
   return isNaN(num) ? 0 : num
+}
+
+export function getItemPayload(experience: Experience, index: number) {
+  return {
+    item_id: experience.slug,
+    item_name: experience.title,
+    item_category: normalizeDestination(experience.destination),
+    price: parsePrice(experience.price),
+    index,
+  }
 }
 
 export function trackAffiliateClick(experience: Experience, position?: number, ctaVariant?: 'A' | 'B'): void {
@@ -80,6 +82,7 @@ export function trackAffiliateClick(experience: Experience, position?: number, c
   const debug = IS_DEV ? { debug_mode: true } : {}
   const pos = position ?? 0
   const variant = ctaVariant ?? getCtaVariant()
+  const item = getItemPayload(experience, pos)
 
   const selectContentEvent = {
     experience_slug: experience.slug,
@@ -98,20 +101,23 @@ export function trackAffiliateClick(experience: Experience, position?: number, c
 
   window.gtag?.('event', 'select_content', selectContentEvent)
 
+  window.gtag?.('event', 'select_item', {
+    item_list_name: destination,
+    items: [item],
+    ...debug,
+  })
+
   window.gtag?.('event', 'begin_checkout', {
     currency: 'EUR',
-    value: parsePrice(experience.price),
-    items: [{
-      item_id: experience.slug,
-      item_name: experience.title,
-      item_category: destination,
-    }],
+    value: item.price,
+    items: [item],
     ...debug,
   })
 
   lsSet('vlg_last_click', JSON.stringify({
     slug: experience.slug,
     price: experience.price,
+    title: experience.title,
     destination,
     source: experience.affiliateSource,
     timestamp: Date.now(),
@@ -119,27 +125,43 @@ export function trackAffiliateClick(experience: Experience, position?: number, c
 
   if (IS_DEV) {
     console.log('[select_content]', selectContentEvent)
-    console.log('[begin_checkout]', { value: parsePrice(experience.price), item: experience.slug })
+    console.log('[select_item]', { item_list_name: destination, item: item.item_id })
+    console.log('[begin_checkout]', { value: item.price, item: item.item_id })
   }
 }
 
 export function trackViewItem(experience: Experience, index: number, ctaVariant: 'A' | 'B'): void {
   if (typeof window === 'undefined') return
 
-  const destination = normalizeDestination(experience.destination)
+  const item = getItemPayload(experience, index)
   const debug = IS_DEV ? { debug_mode: true } : {}
 
   window.gtag?.('event', 'view_item', {
-    item_id: experience.slug,
-    item_name: experience.title,
-    item_category: destination,
-    index,
+    ...item,
     cta_variant: ctaVariant,
     ...debug,
   })
 
   if (IS_DEV) {
-    console.log('[view_item]', { item_id: experience.slug, index, cta_variant: ctaVariant })
+    console.log('[view_item]', { item_id: item.item_id, index, cta_variant: ctaVariant })
+  }
+}
+
+export function trackViewItemList(experiences: Experience[], destination: string): void {
+  if (typeof window === 'undefined') return
+
+  const dest = normalizeDestination(destination)
+  const debug = IS_DEV ? { debug_mode: true } : {}
+  const items = experiences.slice(0, 10).map((exp, i) => getItemPayload(exp, i))
+
+  window.gtag?.('event', 'view_item_list', {
+    item_list_name: dest,
+    items,
+    ...debug,
+  })
+
+  if (IS_DEV) {
+    console.log('[view_item_list]', { item_list_name: dest, count: items.length })
   }
 }
 
@@ -149,7 +171,7 @@ export function checkAndTrackPurchase(): void {
   const raw = lsGet('vlg_last_click')
   if (!raw) return
 
-  let lastClick: { slug: string; price: string; destination: string; source: string; timestamp: number }
+  let lastClick: { slug: string; price: string; title?: string; destination: string; source: string; timestamp: number }
   try {
     lastClick = JSON.parse(raw)
   } catch {
@@ -158,14 +180,18 @@ export function checkAndTrackPurchase(): void {
 
   if (Date.now() - lastClick.timestamp > PURCHASE_WINDOW_MS) return
 
-  // Remove so we don't fire again on next page load
   try { localStorage.removeItem('vlg_last_click') } catch { /* ignore */ }
 
   const debug = IS_DEV ? { debug_mode: true } : {}
   const purchaseEvent = {
     currency: 'EUR',
     value: parsePrice(lastClick.price),
-    item_id: lastClick.slug,
+    items: [{
+      item_id: lastClick.slug,
+      item_name: lastClick.title ?? lastClick.slug,
+      item_category: lastClick.destination,
+      price: parsePrice(lastClick.price),
+    }],
     destination: lastClick.destination,
     source: lastClick.source,
     session_id: getSessionId(),

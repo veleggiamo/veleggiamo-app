@@ -147,7 +147,7 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
           <p className="text-sm text-gray-500 mb-6">Selezionate dalla redazione</p>
           {topExperiences.length > 0 ? (
             <>
-              <ExperienceListTracker destination={slug} count={experiences.length} />
+              <ExperienceListTracker destination={slug} count={experiences.length} experiences={experiences} />
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {topExperiences.map((exp, i) => (
                   <ExperienceCard key={exp.slug} experience={exp} index={i} />
