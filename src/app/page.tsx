@@ -21,10 +21,10 @@ export const metadata: Metadata = {
 }
 
 const DESTINATIONS = [
-  { slug: 'sicilia', name: 'Sicilia', tagline: 'Acque cristalline e grotte marine', coverImage: '/images/destinazioni/sicilia.jpg' },
-  { slug: 'costiera-amalfitana', name: 'Costiera Amalfitana', tagline: 'Coste spettacolari e tramonti sul Tirreno', coverImage: '/images/destinazioni/costiera.jpg' },
-  { slug: 'sardegna', name: 'Sardegna', tagline: 'Mare turchese e calette selvagge', coverImage: '/images/destinazioni/sardegna.jpg' },
-  { slug: 'venezia', name: 'Venezia', tagline: 'Laguna unica, esperienze fuori dal comune', coverImage: '/images/destinazioni/venezia.jpg' },
+  { slug: 'sicilia', name: 'Sicilia', tagline: 'Acque cristalline e grotte marine', coverImage: '/images/sicilia/pexels-raymond-petrik-1448389535-34170086.jpg' },
+  { slug: 'costiera-amalfitana', name: 'Costiera Amalfitana', tagline: 'Coste spettacolari e tramonti sul Tirreno', coverImage: '/images/amalfi/pexels-hellojoshwithers-27025482.jpg' },
+  { slug: 'sardegna', name: 'Sardegna', tagline: 'Mare turchese e calette selvagge', coverImage: '/images/sardegna/pexels-vince-32911045.jpg' },
+  { slug: 'venezia', name: 'Venezia', tagline: 'Laguna unica, esperienze fuori dal comune', coverImage: '/images/generiche/pexels-julia-volk-5273458.jpg' },
 ]
 
 export default async function HomePage() {
