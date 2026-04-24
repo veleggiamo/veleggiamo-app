@@ -79,8 +79,11 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
     options: { parseFrontmatter: true },
   })
 
-  const topExperiences = experiences.slice(0, 3)
-  const remainingExperiences = experiences.slice(3, 9)
+  const ranked = [...experiences].sort((a, b) =>
+    (b.rating * Math.log10(b.reviewCount || 1)) - (a.rating * Math.log10(a.reviewCount || 1))
+  )
+  const topExperiences = ranked.slice(0, 3)
+  const remainingExperiences = ranked.slice(3, 9)
   const faqs = FAQ_DATA[slug] ?? []
 
   const faqJsonLd = faqs.length > 0 ? {

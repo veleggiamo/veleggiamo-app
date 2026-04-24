@@ -1,8 +1,9 @@
 'use client'
+import { useEffect, useRef, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { trackAffiliateClick } from '@/lib/tracking'
+import { trackAffiliateClick, trackViewItem, getCtaVariant } from '@/lib/tracking'
 import type { Experience } from '@/types/experience'
 
 const SOURCE_LABEL: Record<Experience['affiliateSource'], string> = {
@@ -11,11 +12,49 @@ const SOURCE_LABEL: Record<Experience['affiliateSource'], string> = {
   direct: 'operatore verificato',
 }
 
+const CTA_LABELS: Record<'A' | 'B', string> = {
+  A: 'Vedi disponibilità e prezzo aggiornato',
+  B: 'Controlla posti disponibili',
+}
+
+function getBadge(experience: Experience): string | undefined {
+  if (experience.rating >= 4.7 && experience.reviewCount > 1000) return '⭐ Best value'
+  return experience.badge
+}
+
 export function ExperienceCard({ experience, index }: { experience: Experience; index?: number }) {
-  const track = () => trackAffiliateClick(experience, index)
+  const [variant, setVariant] = useState<'A' | 'B'>('A')
+  const cardRef = useRef<HTMLDivElement>(null)
+  const viewFired = useRef(false)
+
+  useEffect(() => {
+    setVariant(getCtaVariant())
+  }, [])
+
+  useEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !viewFired.current) {
+          viewFired.current = true
+          trackViewItem(experience, index ?? 0, getCtaVariant())
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.5 },
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [experience, index])
+
+  const track = () => trackAffiliateClick(experience, index, variant)
+  const badge = getBadge(experience)
 
   return (
-    <Card className="overflow-hidden flex flex-col">
+    <Card ref={cardRef} className="overflow-hidden flex flex-col">
       <div className="relative h-44 bg-sky-100 shrink-0">
         {experience.image && (
           <img
@@ -26,9 +65,9 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
           />
         )}
-        {experience.badge && (
+        {badge && (
           <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
-            {experience.badge}
+            {badge}
           </span>
         )}
       </div>
@@ -65,7 +104,7 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
             className="block"
           >
             <Button className="w-full bg-sky-600 hover:bg-sky-700 text-white text-sm h-9">
-              Vedi disponibilità e prezzo aggiornato
+              {CTA_LABELS[variant]}
             </Button>
           </a>
           <p className="text-xs text-green-600 text-center font-medium">
