@@ -29,11 +29,11 @@ export function ExperienceCard({ experience }: { experience: Experience }) {
           <Badge variant="outline" className="shrink-0 text-xs">{experience.price}</Badge>
         </div>
         <div className="flex items-center gap-3 text-xs text-gray-500">
-          <span>⭐ {experience.rating} ({experience.reviewCount})</span>
+          <span>⭐ {experience.rating} <span className="text-gray-400">({experience.reviewCount.toLocaleString('it-IT')} rec.)</span></span>
           <span>⏱️ {experience.duration}</span>
         </div>
-        {experience.cancellation && (
-          <p className="text-xs text-green-600 font-medium">{experience.cancellation}</p>
+        {experience.location && (
+          <p className="text-xs text-gray-400">📍 {experience.location}</p>
         )}
         <div className="mt-auto pt-1 space-y-1.5">
           <a
@@ -44,9 +44,12 @@ export function ExperienceCard({ experience }: { experience: Experience }) {
             className="block"
           >
             <Button className="w-full bg-sky-600 hover:bg-sky-700 text-white text-sm h-9">
-              Verifica disponibilità
+              Controlla prezzo e disponibilità →
             </Button>
           </a>
+          <p className="text-xs text-gray-500 text-center">
+            ✓ Cancellazione gratuita nella maggior parte dei casi
+          </p>
           <p className="text-xs text-gray-400 text-center">
             Prenotazione sicura tramite {SOURCE_LABEL[experience.affiliateSource]}
           </p>
