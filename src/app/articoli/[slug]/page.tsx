@@ -118,7 +118,7 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
             {data.meta.readingTime && <span>⏱️ {data.meta.readingTime} min di lettura</span>}
             <span>📅 Aggiornato: {displayDate}</span>
             <span className="ml-auto text-xs bg-sky-50 text-sky-700 border border-sky-100 px-2 py-0.5 rounded-full font-medium">
-              ✓ Curato dalla redazione Veleggiamo
+              ✓ Curato dalla redazione Veleggiamo · +10.000 recensioni analizzate
             </span>
           </div>
 
