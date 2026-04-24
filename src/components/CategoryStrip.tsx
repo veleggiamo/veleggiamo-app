@@ -31,10 +31,10 @@ export function CategoryStrip() {
   return (
     <div className="bg-white border-b border-gray-100 py-6">
       <div className="max-w-6xl mx-auto px-6">
-        <p className="text-lg font-semibold text-gray-900 mb-5">
+        <p className="text-lg font-semibold text-gray-900 mb-5 text-center">
           Scegli la tua prossima esperienza
         </p>
-        <div className="flex gap-10 overflow-x-auto scrollbar-hide pb-1 md:justify-start">
+        <div className="flex gap-10 overflow-x-auto scrollbar-hide pb-1 md:justify-center">
           {DESTINATIONS.map(dest => (
             <Link
               key={dest.label}
