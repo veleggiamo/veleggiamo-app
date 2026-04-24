@@ -47,9 +47,9 @@ export default async function HomePage() {
           <div className="max-w-6xl mx-auto px-6">
             {/* MICRO TRUST */}
             <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-sm text-gray-600">
-              <span>⭐ Oltre 10.000 recensioni verificate</span>
-              <span>🔒 Prenotazione sicura e protetta</span>
-              <span>💸 Cancellazione gratuita</span>
+              <span>⭐ 10.000+ recensioni verificate</span>
+              <span>🔒 Prenotazione sicura</span>
+              <span>💸 Cancellazione gratuita su molte esperienze</span>
             </div>
             <div className="mb-10">
               <h2 className="text-2xl font-bold text-gray-900">Le esperienze più prenotate</h2>

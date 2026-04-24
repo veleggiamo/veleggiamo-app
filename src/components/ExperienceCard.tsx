@@ -111,6 +111,14 @@ export function ExperienceCard({
       {/* CONTENT */}
       <div className="flex flex-col flex-1 p-4 gap-2.5">
 
+        {/* URGENCY — solo prime 2 card */}
+        {index === 0 && (
+          <p className="text-xs font-medium text-orange-500">🔥 Molto richiesta</p>
+        )}
+        {index === 1 && (
+          <p className="text-xs font-medium text-red-500">⚡ Ultimi posti</p>
+        )}
+
         {/* LOCATION */}
         {experience.location && (
           <p className="text-xs text-gray-500 flex items-center gap-1">
