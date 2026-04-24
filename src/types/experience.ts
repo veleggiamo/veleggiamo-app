@@ -6,6 +6,7 @@ export type Experience = {
   destination: string
   location?: string
   price: string
+  originalPrice?: string
   duration: string
   rating: number
   reviewCount: number

@@ -12,6 +12,8 @@ const SOURCE_LABEL: Record<Experience['affiliateSource'], string> = {
 }
 
 export function ExperienceCard({ experience, index }: { experience: Experience; index?: number }) {
+  const track = () => trackAffiliateClick(experience, index)
+
   return (
     <Card className="overflow-hidden flex flex-col">
       <div className="relative h-44 bg-sky-100 shrink-0">
@@ -20,6 +22,7 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
             src={experience.image}
             alt={experience.title}
             className="w-full h-full object-cover"
+            loading={index === 0 ? 'eager' : 'lazy'}
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
           />
         )}
@@ -32,7 +35,12 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
       <CardContent className="p-4 flex flex-col gap-3 flex-1">
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-gray-900 text-sm leading-snug">{experience.title}</h3>
-          <Badge variant="outline" className="shrink-0 text-xs">{experience.price}</Badge>
+          <div className="shrink-0 text-right">
+            {experience.originalPrice && (
+              <p className="text-xs text-gray-400 line-through leading-none">{experience.originalPrice}</p>
+            )}
+            <Badge variant="outline" className="text-xs">{experience.price}</Badge>
+          </div>
         </div>
         <div className="text-xs text-gray-500">
           ⭐ {experience.rating}{' '}
@@ -45,11 +53,15 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
           {experience.location && <span>📍 {experience.location}</span>}
         </div>
         <div className="mt-auto pt-1 space-y-1.5">
+          <p className="text-xs text-orange-600 font-medium text-center">
+            Disponibilità limitata — verifica ora
+          </p>
           <a
             href={experience.affiliateUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackAffiliateClick(experience, index)}
+            onMouseDown={track}
+            onClick={track}
             className="block"
           >
             <Button className="w-full bg-sky-600 hover:bg-sky-700 text-white text-sm h-9">
@@ -60,7 +72,7 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
             ✓ Cancellazione gratuita
           </p>
           <p className="text-xs text-gray-400 text-center">
-            Prenotazione sicura tramite {SOURCE_LABEL[experience.affiliateSource]}
+            Prenotazione sicura su {SOURCE_LABEL[experience.affiliateSource]} — nessun costo extra
           </p>
         </div>
       </CardContent>

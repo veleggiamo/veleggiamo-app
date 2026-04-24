@@ -6,6 +6,7 @@ import { getExperiences } from '@/lib/data/experiences'
 import { getArticles } from '@/lib/content/articles'
 import { ExperienceCard } from '@/components/ExperienceCard'
 import { ExperienceListTracker } from '@/components/ExperienceListTracker'
+import { ExperienceEmptyState } from '@/components/ExperienceEmptyState'
 import { ArticleCard } from '@/components/ArticleCard'
 import { siteConfig } from '@/lib/config/site'
 
@@ -136,20 +137,24 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
 
       <div className="max-w-4xl mx-auto px-6 py-10 space-y-14">
 
-        {topExperiences.length > 0 && (
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">
-              Le migliori gite in barca in {data.meta.name}
-            </h2>
-            <p className="text-sm text-gray-500 mb-6">Selezionate dalla redazione</p>
-            <ExperienceListTracker destination={slug} count={experiences.length} />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {topExperiences.map((exp, i) => (
-                <ExperienceCard key={exp.slug} experience={exp} index={i} />
-              ))}
-            </div>
-          </section>
-        )}
+        <section>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">
+            Le migliori gite in barca in {data.meta.name}
+          </h2>
+          <p className="text-sm text-gray-500 mb-6">Selezionate dalla redazione</p>
+          {topExperiences.length > 0 ? (
+            <>
+              <ExperienceListTracker destination={slug} count={experiences.length} />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {topExperiences.map((exp, i) => (
+                  <ExperienceCard key={exp.slug} experience={exp} index={i} />
+                ))}
+              </div>
+            </>
+          ) : (
+            <ExperienceEmptyState />
+          )}
+        </section>
 
         <div className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-a:text-sky-600">
           {content}

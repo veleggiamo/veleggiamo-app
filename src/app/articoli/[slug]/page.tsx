@@ -6,6 +6,7 @@ import { getArticle, getAllArticleSlugs, getArticles, extractToc } from '@/lib/c
 import { getExperiences } from '@/lib/data/experiences'
 import { ExperienceCard } from '@/components/ExperienceCard'
 import { ExperienceListTracker } from '@/components/ExperienceListTracker'
+import { ExperienceEmptyState } from '@/components/ExperienceEmptyState'
 import { ArticleCard } from '@/components/ArticleCard'
 import { siteConfig } from '@/lib/config/site'
 
@@ -62,7 +63,7 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
 
   const ExperienceListMdx = ({ limit = 3 }: { limit?: number }) => {
     const items = experiences.slice(0, limit)
-    if (items.length === 0) return null
+    if (items.length === 0) return <ExperienceEmptyState />
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 not-prose my-6">
         <ExperienceListTracker destination={data.meta.destination} count={items.length} />
