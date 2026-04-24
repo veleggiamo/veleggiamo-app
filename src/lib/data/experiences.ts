@@ -119,7 +119,7 @@ const EXPERIENCES: Experience[] = [
     id: 'sa2',
     slug: 'orosei-cala-luna-mariolu',
     title: 'Gita in barca Golfo di Orosei (Cala Luna + Mariolu)',
-    description: 'Falesie bianche, grotte e le calette più belle d'Italia raggiungibili solo via mare.',
+    description: "Falesie bianche, grotte e le calette più belle d'Italia raggiungibili solo via mare.",
     destination: 'sardegna',
     location: 'Cala Gonone',
     price: 'da €95',
