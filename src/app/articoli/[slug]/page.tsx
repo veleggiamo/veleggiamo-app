@@ -44,7 +44,7 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
   if (!data) notFound()
 
   const [experiences, relatedArticles] = await Promise.all([
-    getExperiences({ destination: data.meta.destination, limit: 3 }),
+    getExperiences({ destination: data.meta.destination }),
     getArticles({ destination: data.meta.destination, limit: 3 }),
   ])
 
@@ -59,9 +59,22 @@ export default async function ArticoloSlugPage({ params }: { params: Promise<{ s
     .slice(0, 4)
   const toc = extractToc(data.source)
 
+  const ExperienceListMdx = ({ limit = 3 }: { limit?: number }) => {
+    const items = experiences.slice(0, limit)
+    if (items.length === 0) return null
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 not-prose my-6">
+        {items.map(exp => (
+          <ExperienceCard key={exp.slug} experience={exp} />
+        ))}
+      </div>
+    )
+  }
+
   const { content } = await compileMDX({
     source: data.source,
     options: { parseFrontmatter: true },
+    components: { ExperienceList: ExperienceListMdx },
   })
 
   const displayDate = data.meta.updatedAt ?? data.meta.publishedAt

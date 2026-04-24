@@ -91,12 +91,34 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
     })),
   } : null
 
+  const itemListJsonLd = experiences.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Migliori gite in barca in ${data.meta.name}`,
+    itemListElement: experiences.slice(0, 6).map((exp, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'TouristTrip',
+        name: exp.title,
+        url: exp.affiliateUrl,
+        offers: { '@type': 'Offer', priceCurrency: 'EUR' },
+      },
+    })),
+  } : null
+
   return (
     <div className="bg-white">
       {faqJsonLd && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
         />
       )}
 
@@ -113,10 +135,6 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
 
       <div className="max-w-4xl mx-auto px-6 py-10 space-y-14">
 
-        <div className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-a:text-sky-600">
-          {content}
-        </div>
-
         {topExperiences.length > 0 && (
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-1">
@@ -130,6 +148,10 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
             </div>
           </section>
         )}
+
+        <div className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-a:text-sky-600">
+          {content}
+        </div>
 
         {remainingExperiences.length > 0 && (
           <section>
