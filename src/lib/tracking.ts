@@ -93,9 +93,17 @@ export function trackAffiliateClick(
   const variant = ctaVariant ?? getCtaVariant()
   const item = getItemPayload(experience, pos)
 
+  // Standard GA4 ecommerce event — keep clean
   window.gtag?.('event', 'select_item', {
     item_list_name: destination,
     items: [item],
+    ...debug,
+  })
+
+  // Custom event — CTA performance + contextual data
+  window.gtag?.('event', 'cta_click', {
+    item_id: item.item_id,
+    item_list_name: destination,
     cta_variant: variant,
     cta_id: CTA_IDS[variant],
     cta_text: ctaText ?? '',
@@ -127,7 +135,8 @@ export function trackAffiliateClick(
   }))
 
   if (IS_DEV) {
-    console.log('[select_item]', { variant, cta_id: CTA_IDS[variant], slug: experience.slug, position: pos })
+    console.log('[select_item]', { item_list_name: destination, item: item.item_id })
+    console.log('[cta_click]', { cta_id: CTA_IDS[variant], variant, position: pos })
     if (item.price > 0) console.log('[begin_checkout]', { value: item.price, item: item.item_id })
     else console.log('[begin_checkout] SKIPPED — price is 0')
   }
@@ -141,12 +150,14 @@ export function trackViewItem(
 ): void {
   if (typeof window === 'undefined') return
 
+  const destination = normalizeDestination(experience.destination)
   const item = getItemPayload(experience, index)
   const debug = IS_DEV ? { debug_mode: true } : {}
 
+  // Standard GA4 ecommerce — item_list_name matches view_item_list for funnel attribution
   window.gtag?.('event', 'view_item', {
     ...item,
-    item_list_name: item.item_category,
+    item_list_name: destination,
     cta_variant: ctaVariant,
     cta_id: CTA_IDS[ctaVariant],
     cta_text: ctaText ?? '',
@@ -154,7 +165,7 @@ export function trackViewItem(
   })
 
   if (IS_DEV) {
-    console.log('[view_item]', { item_id: item.item_id, index, cta_variant: ctaVariant, cta_id: CTA_IDS[ctaVariant] })
+    console.log('[view_item]', { item_id: item.item_id, index, item_list_name: destination, cta_id: CTA_IDS[ctaVariant] })
   }
 }
 
