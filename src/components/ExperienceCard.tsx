@@ -10,13 +10,18 @@ const SOURCE_LABEL: Record<Experience['affiliateSource'], string> = {
 }
 
 export const CTA_LABELS: Record<'A' | 'B', string> = {
-  A: 'Vedi disponibilità',
-  B: 'Controlla posti disponibili',
+  A: 'Controlla disponibilità',
+  B: 'Verifica posti disponibili',
 }
 
 function getBadge(experience: Experience): string | undefined {
   if (experience.rating >= 4.7 && experience.reviewCount > 1000) return '🏆 Top scelta'
   return experience.badge
+}
+
+function getTrustLine(reviewCount: number): string {
+  const rounded = Math.floor(reviewCount / 100) * 100
+  return `Prenotato ${rounded.toLocaleString('it-IT')}+ volte`
 }
 
 export function ExperienceCard({
@@ -71,6 +76,7 @@ export function ExperienceCard({
   const ctaText = CTA_LABELS[variant]
   const track = () => trackAffiliateClick(experience, index, variant, ctaText)
   const badge = getBadge(experience)
+  const isHighDemand = experience.rating > 4.6
 
   return (
     <div
@@ -88,7 +94,6 @@ export function ExperienceCard({
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
           />
         )}
-        {/* gradient overlay — anchors price/title text when used over image */}
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
 
         {badge && (
@@ -118,16 +123,19 @@ export function ExperienceCard({
           {experience.title}
         </h3>
 
-        {/* RATING */}
-        <div className="flex items-center gap-1.5">
-          <span className="text-amber-400 text-xs tracking-tight">
-            {'★'.repeat(Math.min(Math.round(experience.rating), 5))}
-            {'☆'.repeat(5 - Math.min(Math.round(experience.rating), 5))}
-          </span>
-          <span className="text-xs font-semibold text-gray-800">{experience.rating}</span>
-          <span className="text-xs text-gray-400">
-            ({experience.reviewCount.toLocaleString('it-IT')})
-          </span>
+        {/* RATING + TRUST */}
+        <div className="space-y-1">
+          <div className="flex items-center gap-1.5">
+            <span className="text-amber-400 text-xs tracking-tight">
+              {'★'.repeat(Math.min(Math.round(experience.rating), 5))}
+              {'☆'.repeat(5 - Math.min(Math.round(experience.rating), 5))}
+            </span>
+            <span className="text-xs font-semibold text-gray-800">{experience.rating}</span>
+            <span className="text-xs text-gray-400">
+              ({experience.reviewCount.toLocaleString('it-IT')})
+            </span>
+          </div>
+          <p className="text-xs text-gray-400">{getTrustLine(experience.reviewCount)}</p>
         </div>
 
         {/* DURATION */}
@@ -138,15 +146,21 @@ export function ExperienceCard({
           <div className="flex items-end justify-between">
             <div>
               <p className="text-xs text-gray-400 mb-0.5">da</p>
-              <div className="flex items-baseline gap-1.5">
+              <div className="flex items-baseline gap-1">
                 <span className="text-2xl font-bold text-gray-900">{experience.price}</span>
                 {experience.originalPrice && (
-                  <span className="text-xs text-gray-400 line-through">{experience.originalPrice}</span>
+                  <span className="text-xs text-gray-400 line-through mr-1">{experience.originalPrice}</span>
                 )}
+                <span className="text-xs text-gray-400">/ persona</span>
               </div>
             </div>
             <span className="text-xs text-green-600 font-medium">✓ Cancellazione gratuita</span>
           </div>
+
+          {/* URGENCY — only if high demand */}
+          {isHighDemand && (
+            <p className="text-xs text-orange-500 font-medium">Alta richiesta 🔥</p>
+          )}
 
           <a
             href={experience.affiliateUrl}
