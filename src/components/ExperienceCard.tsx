@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { trackAffiliateClick, trackViewItem, getCtaVariant } from '@/lib/tracking'
@@ -13,13 +12,22 @@ const SOURCE_LABEL: Record<Experience['affiliateSource'], string> = {
 }
 
 export const CTA_LABELS: Record<'A' | 'B', string> = {
-  A: 'Vedi disponibilità e prezzo aggiornato',
+  A: 'Vedi disponibilità e prezzo',
   B: 'Controlla posti disponibili',
 }
 
 function getBadge(experience: Experience): string | undefined {
-  if (experience.rating >= 4.7 && experience.reviewCount > 1000) return '⭐ Best value'
+  if (experience.rating >= 4.7 && experience.reviewCount > 1000) return '🏆 Top scelta'
   return experience.badge
+}
+
+function StarRating({ rating }: { rating: number }) {
+  const full = Math.min(Math.round(rating), 5)
+  return (
+    <span className="text-amber-400 tracking-tight">
+      {'★'.repeat(full)}{'☆'.repeat(5 - full)}
+    </span>
+  )
 }
 
 export function ExperienceCard({
@@ -76,47 +84,72 @@ export function ExperienceCard({
   const badge = getBadge(experience)
 
   return (
-    <Card ref={cardRef} className="overflow-hidden flex flex-col">
-      <div className="relative h-44 bg-sky-100 shrink-0">
+    <div
+      ref={cardRef}
+      className="group flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300"
+    >
+      {/* IMAGE */}
+      <div className="relative aspect-video bg-sky-100 shrink-0 overflow-hidden">
         {experience.image && (
           <img
             src={experience.image}
             alt={experience.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading={index === 0 ? 'eager' : 'lazy'}
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
           />
         )}
         {badge && (
-          <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
+          <span className="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md">
             {badge}
           </span>
         )}
+        {experience.originalPrice && (
+          <span className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+            Offerta
+          </span>
+        )}
       </div>
-      <CardContent className="p-4 flex flex-col gap-3 flex-1">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-gray-900 text-sm leading-snug">{experience.title}</h3>
-          <div className="shrink-0 text-right">
-            {experience.originalPrice && (
-              <p className="text-xs text-gray-400 line-through leading-none">{experience.originalPrice}</p>
-            )}
-            <Badge variant="outline" className="text-xs">{experience.price}</Badge>
-          </div>
-        </div>
-        <div className="text-xs text-gray-500">
-          ⭐ {experience.rating}{' '}
-          <span className="text-gray-400">
-            ({experience.reviewCount.toLocaleString('it-IT')} recensioni su {SOURCE_LABEL[experience.affiliateSource]})
+
+      {/* CONTENT */}
+      <div className="flex flex-col flex-1 p-4 gap-3">
+
+        <h3 className="font-semibold text-gray-900 text-sm leading-snug line-clamp-2">
+          {experience.title}
+        </h3>
+
+        {/* RATING */}
+        <div className="flex items-center gap-1.5">
+          <StarRating rating={experience.rating} />
+          <span className="text-sm font-semibold text-gray-800">{experience.rating}</span>
+          <span className="text-xs text-gray-400">
+            ({experience.reviewCount.toLocaleString('it-IT')} su {SOURCE_LABEL[experience.affiliateSource]})
           </span>
         </div>
-        <div className="flex items-center gap-3 text-xs text-gray-400">
-          <span>⏱️ {experience.duration}</span>
+
+        {/* META */}
+        <div className="flex items-center gap-3 text-xs text-gray-500">
+          <span>⏱ {experience.duration}</span>
           {experience.location && <span>📍 {experience.location}</span>}
         </div>
-        <div className="mt-auto pt-1 space-y-1.5">
-          <p className="text-xs text-orange-600 font-medium text-center">
-            Disponibilità limitata — verifica ora
-          </p>
+
+        {/* PRICE + CTA */}
+        <div className="mt-auto pt-2 space-y-2">
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-xs text-gray-400 mb-0.5">da</p>
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xl font-bold text-sky-700">{experience.price}</span>
+                {experience.originalPrice && (
+                  <span className="text-xs text-gray-400 line-through">{experience.originalPrice}</span>
+                )}
+              </div>
+            </div>
+            <Badge variant="outline" className="text-xs text-green-600 border-green-200 bg-green-50">
+              ✓ Cancellazione gratuita
+            </Badge>
+          </div>
+
           <a
             href={experience.affiliateUrl}
             target="_blank"
@@ -125,18 +158,16 @@ export function ExperienceCard({
             onClick={track}
             className="block"
           >
-            <Button className="w-full bg-sky-600 hover:bg-sky-700 text-white text-sm h-9">
+            <Button className="w-full bg-sky-600 hover:bg-sky-700 text-white font-semibold h-10">
               {ctaText}
             </Button>
           </a>
-          <p className="text-xs text-green-600 text-center font-medium">
-            ✓ Cancellazione gratuita
-          </p>
+
           <p className="text-xs text-gray-400 text-center">
-            Prenotazione sicura su {SOURCE_LABEL[experience.affiliateSource]} — nessun costo extra
+            Prenotazione sicura su {SOURCE_LABEL[experience.affiliateSource]}
           </p>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
