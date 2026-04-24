@@ -102,12 +102,12 @@ export function trackAffiliateClick(
 
   // Custom event — CTA performance + contextual data
   window.gtag?.('event', 'cta_click', {
-    item_id: item.item_id,
+    items: [item],
     item_list_name: destination,
+    index: pos,
     cta_variant: variant,
     cta_id: CTA_IDS[variant],
     cta_text: ctaText ?? '',
-    position: pos,
     position_bucket: getPositionBucket(pos),
     page_path: window.location.pathname,
     session_id: getSessionId(),
@@ -136,7 +136,7 @@ export function trackAffiliateClick(
 
   if (IS_DEV) {
     console.log('[select_item]', { item_list_name: destination, item: item.item_id })
-    console.log('[cta_click]', { cta_id: CTA_IDS[variant], variant, position: pos })
+    console.log('[cta_click]', { cta_id: CTA_IDS[variant], variant, index: pos })
     if (item.price > 0) console.log('[begin_checkout]', { value: item.price, item: item.item_id })
     else console.log('[begin_checkout] SKIPPED — price is 0')
   }
