@@ -5,6 +5,21 @@ import type { ArticleMeta } from '@/types/article'
 
 const ARTICLES_DIR = path.join(process.cwd(), 'content', 'articoli')
 
+const DESTINATION_FALLBACK: Record<string, string> = {
+  sicilia: '/images/sicilia/pexels-raymond-petrik-1448389535-34170086.jpg',
+  sardegna: '/images/sardegna/pexels-vince-32911045.jpg',
+  'costiera-amalfitana': '/images/amalfi/pexels-hellojoshwithers-27025482.jpg',
+  venezia: '/images/generiche/pexels-julia-volk-5273458.jpg',
+}
+
+function resolveImage(coverImage: string, destination: string): string {
+  if (coverImage) {
+    const abs = path.join(process.cwd(), 'public', coverImage)
+    if (fs.existsSync(abs)) return coverImage
+  }
+  return DESTINATION_FALLBACK[destination] ?? ''
+}
+
 function calcReadingTime(source: string): number {
   const wordCount = source.replace(/---[\s\S]*?---/, '').split(/\s+/).length
   return Math.max(1, Math.round(wordCount / 200))
@@ -35,7 +50,7 @@ export async function getArticles(params?: {
       destination: data.destination ?? '',
       publishedAt: data.publishedAt ?? '',
       updatedAt: data.updatedAt,
-      coverImage: data.coverImage ?? '',
+      coverImage: resolveImage(data.coverImage ?? '', data.destination ?? ''),
       readingTime: calcReadingTime(raw),
       seo: data.seo,
     }
@@ -64,7 +79,7 @@ export async function getArticle(slug: string): Promise<{ meta: ArticleMeta; sou
     destination: data.destination ?? '',
     publishedAt: data.publishedAt ?? '',
     updatedAt: data.updatedAt,
-    coverImage: data.coverImage ?? '',
+    coverImage: resolveImage(data.coverImage ?? '', data.destination ?? ''),
     readingTime: calcReadingTime(raw),
     seo: data.seo,
   }

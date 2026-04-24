@@ -4,6 +4,7 @@ import { getExperiences } from '@/lib/data/experiences'
 import { getEvents } from '@/lib/data/events'
 import { getArticles } from '@/lib/content/articles'
 import { HeroSection } from '@/components/HeroSection'
+import { CategoryStrip } from '@/components/CategoryStrip'
 import { ExperienceCard } from '@/components/ExperienceCard'
 import { ArticleCard } from '@/components/ArticleCard'
 import { DestinationCard } from '@/components/DestinationCard'
@@ -38,6 +39,7 @@ export default async function HomePage() {
     <div className="bg-white">
 
       <HeroSection />
+      <CategoryStrip />
 
       {/* DESTINAZIONI */}
       <section className="max-w-6xl mx-auto px-6 py-16">
