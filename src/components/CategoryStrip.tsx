@@ -1,37 +1,59 @@
 import Link from 'next/link'
 
-const CATEGORIES = [
-  { label: 'Sicilia',              href: '/destinazioni/sicilia',           img: '/images/sicilia/pexels-raymond-petrik-1448389535-34170086.jpg' },
-  { label: 'Sardegna',            href: '/destinazioni/sardegna',          img: '/images/sardegna/pexels-vince-32911045.jpg' },
-  { label: 'Costiera Amalfitana', href: '/destinazioni/costiera-amalfitana', img: '/images/amalfi/pexels-hellojoshwithers-27025482.jpg' },
-  { label: 'Venezia',             href: '/destinazioni/venezia',           img: '/images/generiche/pexels-julia-volk-5273458.jpg' },
-  { label: 'Barca privata',       href: '/destinazioni',                   img: '/images/sardegna/pexels-davide-lorenzon-788830-13409756.jpg' },
-  { label: 'Tramonto',            href: '/destinazioni',                   img: '/images/amalfi/pexels-small-steps-898071686-19990860.jpg' },
-  { label: 'Snorkeling',          href: '/destinazioni',                   img: '/images/sicilia/pexels-hub-jacqu-750015482-29011885.jpg' },
-  { label: 'Tour guidati',        href: '/destinazioni',                   img: '/images/generiche/pexels-matthardy-3560374.jpg' },
+const DESTINATIONS = [
+  {
+    label: 'Sicilia',
+    sub: '5 esperienze',
+    href: '/destinazioni/sicilia',
+    img: '/images/sicilia/pexels-raymond-petrik-1448389535-34170086.jpg',
+  },
+  {
+    label: 'Sardegna',
+    sub: '5 esperienze',
+    href: '/destinazioni/sardegna',
+    img: '/images/sardegna/pexels-vince-32911045.jpg',
+  },
+  {
+    label: 'Costiera Amalfitana',
+    sub: '1 esperienza',
+    href: '/destinazioni/costiera-amalfitana',
+    img: '/images/amalfi/pexels-hellojoshwithers-27025482.jpg',
+  },
+  {
+    label: 'Venezia',
+    sub: '1 esperienza',
+    href: '/destinazioni/venezia',
+    img: '/images/generiche/pexels-julia-volk-5273458.jpg',
+  },
 ]
 
 export function CategoryStrip() {
   return (
-    <div className="bg-white border-b border-gray-100">
+    <div className="bg-white border-b border-gray-100 py-6">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="flex gap-8 overflow-x-auto py-5 scrollbar-hide">
-          {CATEGORIES.map(cat => (
+        <p className="text-lg font-semibold text-gray-900 mb-5">
+          Scegli la tua prossima esperienza
+        </p>
+        <div className="flex gap-10 overflow-x-auto scrollbar-hide pb-1 md:justify-start">
+          {DESTINATIONS.map(dest => (
             <Link
-              key={cat.label}
-              href={cat.href}
-              className="group flex flex-col items-center gap-2 shrink-0 text-center"
+              key={dest.label}
+              href={dest.href}
+              className="group flex flex-col items-center gap-2.5 shrink-0 cursor-pointer"
             >
-              <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-sky-400 transition-all duration-200">
+              <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-gray-200 group-hover:ring-sky-500 group-hover:ring-offset-2 group-active:scale-95 transition-all duration-200 shadow-sm group-hover:shadow-md">
                 <img
-                  src={cat.img}
-                  alt={cat.label}
+                  src={dest.img}
+                  alt={dest.label}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
-              <span className="text-xs font-medium text-gray-600 group-hover:text-sky-600 transition-colors whitespace-nowrap">
-                {cat.label}
-              </span>
+              <div className="text-center">
+                <p className="text-sm font-semibold text-gray-800 group-hover:text-sky-600 transition-colors whitespace-nowrap leading-tight">
+                  {dest.label}
+                </p>
+                <p className="text-xs text-gray-400 mt-0.5 whitespace-nowrap">{dest.sub}</p>
+              </div>
             </Link>
           ))}
         </div>
