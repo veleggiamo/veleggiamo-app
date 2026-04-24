@@ -10,7 +10,7 @@ export function HeroSection() {
           muted
           loop
           playsInline
-          poster="/images/hero-boat.jpg"
+          poster="/images/amalfi/pexels-hellojoshwithers-27025482.jpg"
           className="w-full h-full object-cover"
         >
           <source src="/images/3391236-hd_1920_1080_30fps.mp4" type="video/mp4" />
