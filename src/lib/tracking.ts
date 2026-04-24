@@ -13,12 +13,17 @@ function getSessionId(): string {
   return sid
 }
 
+function normalizeDestination(destination: string): string {
+  return destination.toLowerCase().trim()
+}
+
 export function trackAffiliateClick(experience: Experience, position?: number): void {
   const event = {
     experience_slug: experience.slug,
-    destination: experience.destination,
+    destination: normalizeDestination(experience.destination),
     source: experience.affiliateSource,
     position: position ?? 0,
+    page_path: typeof window !== 'undefined' ? window.location.pathname : '',
     session_id: getSessionId(),
   }
 
