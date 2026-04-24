@@ -30,7 +30,7 @@ const DESTINATIONS = [
 
 export default async function HomePage() {
   const [experiences, events, articles] = await Promise.all([
-    getExperiences({ featured: true, limit: 3 }),
+    getExperiences({ featured: true, limit: 6 }),
     getEvents({ limit: 2 }),
     getArticles({ limit: 3 }),
   ])
@@ -40,6 +40,50 @@ export default async function HomePage() {
 
       <HeroSection />
       <CategoryStrip />
+
+      {/* TOP ESPERIENZE */}
+      {experiences.length > 0 && (
+        <section className="py-16">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="mb-10">
+              <h2 className="text-2xl font-bold text-gray-900">Le esperienze più prenotate</h2>
+              <p className="text-sm text-gray-500 mt-1">Le attività più amate dai viaggiatori in Italia</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {experiences.map((exp, i) => (
+                <ExperienceCard key={exp.slug} experience={exp} index={i} />
+              ))}
+            </div>
+            <div className="text-center mt-10">
+              <Link href="/destinazioni">
+                <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold px-8 h-11">
+                  Vedi tutte le esperienze →
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* TRUST BAR */}
+      <section className="border-y border-gray-100 py-8 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              { icon: '✓', label: 'Cancellazione gratuita', sub: 'sulla maggior parte delle esperienze' },
+              { icon: '🔒', label: 'Prenotazione sicura', sub: 'su Viator e GetYourGuide' },
+              { icon: '★', label: 'Rating medio 4.8', sub: 'su migliaia di recensioni' },
+              { icon: '🌊', label: '4 destinazioni', sub: 'le coste più belle d\'Italia' },
+            ].map(item => (
+              <div key={item.label} className="space-y-1">
+                <p className="text-2xl">{item.icon}</p>
+                <p className="font-semibold text-gray-900 text-sm">{item.label}</p>
+                <p className="text-xs text-gray-500">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* DESTINAZIONI */}
       <section className="max-w-6xl mx-auto px-6 py-16">
@@ -56,53 +100,6 @@ export default async function HomePage() {
           {DESTINATIONS.map(dest => (
             <DestinationCard key={dest.slug} destination={dest} />
           ))}
-        </div>
-      </section>
-
-      {/* TOP ESPERIENZE */}
-      {experiences.length > 0 && (
-        <section className="bg-sky-50 py-16 border-y border-sky-100">
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="text-center mb-10">
-              <p className="text-sm font-semibold text-sky-600 uppercase tracking-widest mb-2">Selezionate dalla redazione</p>
-              <h2 className="text-3xl font-bold text-gray-900">Le nostre scelte migliori</h2>
-              <p className="text-gray-500 mt-2 max-w-xl mx-auto">
-                Esperienze verificate con migliaia di recensioni reali su Viator e GetYourGuide.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {experiences.map((exp, i) => (
-                <ExperienceCard key={exp.slug} experience={exp} index={i} />
-              ))}
-            </div>
-            <div className="text-center mt-10">
-              <Link href="/destinazioni">
-                <Button variant="outline" className="border-sky-200 text-sky-700 hover:bg-sky-50 font-semibold px-8">
-                  Vedi tutte le esperienze →
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* TRUST BAR */}
-      <section className="border-y border-gray-100 py-8">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            {[
-              { icon: '✓', label: 'Cancellazione gratuita', sub: 'sulla maggior parte delle esperienze' },
-              { icon: '🔒', label: 'Prenotazione sicura', sub: 'su Viator e GetYourGuide' },
-              { icon: '★', label: 'Rating medio 4.8', sub: 'su migliaia di recensioni' },
-              { icon: '🌊', label: '4 destinazioni', sub: 'le coste più belle d\'Italia' },
-            ].map(item => (
-              <div key={item.label} className="space-y-1">
-                <p className="text-2xl">{item.icon}</p>
-                <p className="font-semibold text-gray-900 text-sm">{item.label}</p>
-                <p className="text-xs text-gray-500">{item.sub}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
