@@ -1,12 +1,21 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
+import { checkAndTrackPurchase } from '@/lib/tracking'
 
 const IS_DEV = process.env.NODE_ENV === 'development'
 
 export function Analytics() {
   const pathname = usePathname()
   const firedDepths = useRef(new Set<number>())
+  const purchaseChecked = useRef(false)
+
+  useEffect(() => {
+    if (!purchaseChecked.current) {
+      purchaseChecked.current = true
+      checkAndTrackPurchase()
+    }
+  }, [])
 
   useEffect(() => {
     if (typeof window === 'undefined') return

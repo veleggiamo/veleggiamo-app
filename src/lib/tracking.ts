@@ -1,6 +1,7 @@
 import type { Experience } from '@/types/experience'
 
 const IS_DEV = process.env.NODE_ENV === 'development'
+const PURCHASE_WINDOW_MS = 30 * 60 * 1000
 
 function getSessionId(): string {
   if (typeof window === 'undefined') return 'ssr'
@@ -36,6 +37,35 @@ function getPositionBucket(position: number): string {
   return 'rest'
 }
 
+function getDeviceType(): 'mobile' | 'desktop' {
+  if (typeof window === 'undefined') return 'desktop'
+  return window.innerWidth < 768 ? 'mobile' : 'desktop'
+}
+
+function getTrafficSource(): 'organic' | 'social' | 'direct' {
+  if (typeof window === 'undefined') return 'direct'
+  const ref = document.referrer
+  if (ref.includes('google') || ref.includes('bing') || ref.includes('yahoo')) return 'organic'
+  if (ref.includes('facebook') || ref.includes('instagram') || ref.includes('tiktok')) return 'social'
+  return 'direct'
+}
+
+function lsGet(key: string): string | null {
+  try {
+    return localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function lsSet(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    // localStorage unavailable (private mode, storage full)
+  }
+}
+
 export function parsePrice(price: string): number {
   const cleaned = price.replace(/[€$£\s.]/g, '').replace(',', '.').replace(/[^\d.]/g, '')
   const num = parseFloat(cleaned)
@@ -60,6 +90,8 @@ export function trackAffiliateClick(experience: Experience, position?: number, c
     cta_variant: variant,
     page_path,
     session_id: getSessionId(),
+    device_type: getDeviceType(),
+    traffic_source: getTrafficSource(),
     outbound: true,
     ...debug,
   }
@@ -76,6 +108,14 @@ export function trackAffiliateClick(experience: Experience, position?: number, c
     }],
     ...debug,
   })
+
+  lsSet('vlg_last_click', JSON.stringify({
+    slug: experience.slug,
+    price: experience.price,
+    destination,
+    source: experience.affiliateSource,
+    timestamp: Date.now(),
+  }))
 
   if (IS_DEV) {
     console.log('[select_content]', selectContentEvent)
@@ -100,5 +140,43 @@ export function trackViewItem(experience: Experience, index: number, ctaVariant:
 
   if (IS_DEV) {
     console.log('[view_item]', { item_id: experience.slug, index, cta_variant: ctaVariant })
+  }
+}
+
+export function checkAndTrackPurchase(): void {
+  if (typeof window === 'undefined') return
+
+  const raw = lsGet('vlg_last_click')
+  if (!raw) return
+
+  let lastClick: { slug: string; price: string; destination: string; source: string; timestamp: number }
+  try {
+    lastClick = JSON.parse(raw)
+  } catch {
+    return
+  }
+
+  if (Date.now() - lastClick.timestamp > PURCHASE_WINDOW_MS) return
+
+  // Remove so we don't fire again on next page load
+  try { localStorage.removeItem('vlg_last_click') } catch { /* ignore */ }
+
+  const debug = IS_DEV ? { debug_mode: true } : {}
+  const purchaseEvent = {
+    currency: 'EUR',
+    value: parsePrice(lastClick.price),
+    item_id: lastClick.slug,
+    destination: lastClick.destination,
+    source: lastClick.source,
+    session_id: getSessionId(),
+    device_type: getDeviceType(),
+    traffic_source: getTrafficSource(),
+    ...debug,
+  }
+
+  window.gtag?.('event', 'purchase', purchaseEvent)
+
+  if (IS_DEV) {
+    console.log('[purchase]', purchaseEvent)
   }
 }
