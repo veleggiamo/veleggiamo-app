@@ -14,6 +14,18 @@ const DESTINATIONS = [
     img: '/images/sardegna/pexels-vince-32911045.jpg',
   },
   {
+    label: 'Puglia',
+    sub: '5 esperienze',
+    href: '/destinazioni/puglia',
+    img: '/images/amalfi/pexels-hellojoshwithers-27025484.jpg',
+  },
+  {
+    label: 'Calabria',
+    sub: '5 esperienze',
+    href: '/destinazioni/calabria',
+    img: '/images/amalfi/pexels-magda-ehlers-pexels-35424369.jpg',
+  },
+  {
     label: 'Costiera Amalfitana',
     sub: '1 esperienza',
     href: '/destinazioni/costiera-amalfitana',

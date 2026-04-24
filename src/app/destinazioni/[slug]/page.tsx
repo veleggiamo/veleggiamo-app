@@ -61,6 +61,16 @@ const FAQ_DATA: Record<string, { q: string; a: string }[]> = {
     { q: 'Quale isola della laguna merita di più?', a: "Burano per le fotografie, Torcello per la storia, Murano per chi ama l'arte vetraria." },
     { q: 'Le gite sono adatte ai bambini?', a: 'Sì, la laguna è quasi sempre piatta e sicura.' },
   ],
+  puglia: [
+    { q: 'Quanto costa il tour delle grotte di Polignano a Mare?', a: 'Il tour standard delle grotte dura circa 2 ore e costa €30–€45 a persona. Alcune compagnie offrono versioni con snorkeling a €50–€60.' },
+    { q: 'Qual è il periodo migliore per le gite in barca in Puglia?', a: 'Maggio–giugno per meno folla e prezzi bassi. Luglio–agosto per mare più caldo. Settembre è la scelta degli intenditori: mare caldo e calette tranquille.' },
+    { q: 'Conviene più Gallipoli o Otranto per le gite in barca?', a: 'Gallipoli per spiagge di sabbia fine e acque caraibiche. Otranto per la costa selvaggia con la Baia dei Turchi e le grotte di Santa Cesarea. Entrambe valgono.' },
+  ],
+  calabria: [
+    { q: 'Quanto dura il tour in barca da Tropea a Capo Vaticano?', a: 'I tour standard durano 4–5 ore e costano €45–€65 a persona. Si visitano le grotte marine, le calette di Capo Vaticano e spesso si fa una sosta per lo snorkeling.' },
+    { q: 'Si vedono i delfini durante le gite in barca a Scilla?', a: 'Sì, nello Stretto di Messina i delfini sono frequenti, soprattutto la mattina presto. Non è garantito ma gli avvistamenti sono molto comuni in estate.' },
+    { q: 'La Calabria è adatta per le gite in barca con bambini?', a: 'Sì, soprattutto il lato ionico (Tropea, Capo Vaticano) dove il mare è quasi sempre piatto. Le grotte di Tropea sono perfette per bambini dai 5 anni in su.' },
+  ],
 }
 
 export default async function DestinazioneSlugPage({ params }: { params: Promise<{ slug: string }> }) {
