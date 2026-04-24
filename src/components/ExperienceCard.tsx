@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { trackAffiliateClick, trackViewItem, getCtaVariant } from '@/lib/tracking'
+import { trackAffiliateClick, trackViewItem, trackViewCta, getCtaVariant } from '@/lib/tracking'
+import { incrementVisibleCards } from '@/lib/visibleCards'
 import type { Experience } from '@/types/experience'
 
 const SOURCE_LABEL: Record<Experience['affiliateSource'], string> = {
@@ -12,7 +13,7 @@ const SOURCE_LABEL: Record<Experience['affiliateSource'], string> = {
   direct: 'operatore verificato',
 }
 
-const CTA_LABELS: Record<'A' | 'B', string> = {
+export const CTA_LABELS: Record<'A' | 'B', string> = {
   A: 'Vedi disponibilità e prezzo aggiornato',
   B: 'Controlla posti disponibili',
 }
@@ -22,7 +23,15 @@ function getBadge(experience: Experience): string | undefined {
   return experience.badge
 }
 
-export function ExperienceCard({ experience, index }: { experience: Experience; index?: number }) {
+export function ExperienceCard({
+  experience,
+  index,
+  onVisible,
+}: {
+  experience: Experience
+  index?: number
+  onVisible?: () => void
+}) {
   const [variant, setVariant] = useState<'A' | 'B'>('A')
   const cardRef = useRef<HTMLDivElement>(null)
   const viewFired = useRef(false)
@@ -39,7 +48,11 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
       (entries) => {
         if (entries[0].isIntersecting && !viewFired.current) {
           viewFired.current = true
-          trackViewItem(experience, index ?? 0, getCtaVariant())
+          const v = getCtaVariant()
+          trackViewItem(experience, index ?? 0, v)
+          trackViewCta(experience, index ?? 0, v)
+          incrementVisibleCards()
+          onVisible?.()
           observer.disconnect()
         }
       },
@@ -48,9 +61,10 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [experience, index])
+  }, [experience, index, onVisible])
 
-  const track = () => trackAffiliateClick(experience, index, variant)
+  const ctaText = CTA_LABELS[variant]
+  const track = () => trackAffiliateClick(experience, index, variant, ctaText)
   const badge = getBadge(experience)
 
   return (
@@ -104,7 +118,7 @@ export function ExperienceCard({ experience, index }: { experience: Experience; 
             className="block"
           >
             <Button className="w-full bg-sky-600 hover:bg-sky-700 text-white text-sm h-9">
-              {CTA_LABELS[variant]}
+              {ctaText}
             </Button>
           </a>
           <p className="text-xs text-green-600 text-center font-medium">

@@ -74,7 +74,12 @@ export function getItemPayload(experience: Experience, index: number) {
   }
 }
 
-export function trackAffiliateClick(experience: Experience, position?: number, ctaVariant?: 'A' | 'B'): void {
+export function trackAffiliateClick(
+  experience: Experience,
+  position?: number,
+  ctaVariant?: 'A' | 'B',
+  ctaText?: string,
+): void {
   if (typeof window === 'undefined') return
 
   const destination = normalizeDestination(experience.destination)
@@ -91,6 +96,7 @@ export function trackAffiliateClick(experience: Experience, position?: number, c
     position: pos,
     position_bucket: getPositionBucket(pos),
     cta_variant: variant,
+    cta_text: ctaText ?? '',
     page_path,
     session_id: getSessionId(),
     device_type: getDeviceType(),
@@ -107,12 +113,14 @@ export function trackAffiliateClick(experience: Experience, position?: number, c
     ...debug,
   })
 
-  window.gtag?.('event', 'begin_checkout', {
-    currency: 'EUR',
-    value: item.price,
-    items: [item],
-    ...debug,
-  })
+  if (item.price > 0) {
+    window.gtag?.('event', 'begin_checkout', {
+      currency: 'EUR',
+      value: item.price,
+      items: [item],
+      ...debug,
+    })
+  }
 
   lsSet('vlg_last_click', JSON.stringify({
     slug: experience.slug,
@@ -124,9 +132,11 @@ export function trackAffiliateClick(experience: Experience, position?: number, c
   }))
 
   if (IS_DEV) {
+    console.log('[cta_click]', { variant, cta_text: ctaText, slug: experience.slug, position: pos })
     console.log('[select_content]', selectContentEvent)
     console.log('[select_item]', { item_list_name: destination, item: item.item_id })
-    console.log('[begin_checkout]', { value: item.price, item: item.item_id })
+    if (item.price > 0) console.log('[begin_checkout]', { value: item.price, item: item.item_id })
+    else console.log('[begin_checkout] SKIPPED — price is 0')
   }
 }
 
@@ -144,6 +154,29 @@ export function trackViewItem(experience: Experience, index: number, ctaVariant:
 
   if (IS_DEV) {
     console.log('[view_item]', { item_id: item.item_id, index, cta_variant: ctaVariant })
+  }
+}
+
+export function trackViewCta(
+  experience: Experience,
+  position: number,
+  ctaVariant: 'A' | 'B',
+): void {
+  if (typeof window === 'undefined') return
+
+  const debug = IS_DEV ? { debug_mode: true } : {}
+  const event = {
+    cta_variant: ctaVariant,
+    experience_slug: experience.slug,
+    position,
+    page_path: window.location.pathname,
+    ...debug,
+  }
+
+  window.gtag?.('event', 'view_cta', event)
+
+  if (IS_DEV) {
+    console.log('[view_cta]', event)
   }
 }
 
@@ -182,15 +215,18 @@ export function checkAndTrackPurchase(): void {
 
   try { localStorage.removeItem('vlg_last_click') } catch { /* ignore */ }
 
+  const value = parsePrice(lastClick.price)
+  if (value <= 0) return
+
   const debug = IS_DEV ? { debug_mode: true } : {}
   const purchaseEvent = {
     currency: 'EUR',
-    value: parsePrice(lastClick.price),
+    value,
     items: [{
       item_id: lastClick.slug,
       item_name: lastClick.title ?? lastClick.slug,
       item_category: lastClick.destination,
-      price: parsePrice(lastClick.price),
+      price: value,
     }],
     destination: lastClick.destination,
     source: lastClick.source,

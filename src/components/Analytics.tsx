@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { checkAndTrackPurchase } from '@/lib/tracking'
+import { getVisibleCards, resetVisibleCards } from '@/lib/visibleCards'
 
 const IS_DEV = process.env.NODE_ENV === 'development'
 
@@ -20,6 +21,7 @@ export function Analytics() {
   useEffect(() => {
     if (typeof window === 'undefined') return
     firedDepths.current.clear()
+    resetVisibleCards()
     const debug = IS_DEV ? { debug_mode: true } : {}
     window.gtag?.('event', 'page_view', {
       page_path: pathname,
@@ -52,6 +54,7 @@ export function Analytics() {
           window.gtag?.('event', 'scroll_depth', {
             depth: t,
             engagement_score: t / 100,
+            visible_cards: getVisibleCards(),
             page_path: pathname,
             ...debug,
           })

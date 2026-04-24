@@ -79,9 +79,20 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
     options: { parseFrontmatter: true },
   })
 
-  const ranked = [...experiences].sort((a, b) =>
-    (b.rating * Math.log10(b.reviewCount || 1)) - (a.rating * Math.log10(a.reviewCount || 1))
-  )
+  const MOCK_CTR = 0.05
+  const ranked = [...experiences].sort((a, b) => {
+    const scoreA = a.rating * Math.log10(a.reviewCount || 1) + MOCK_CTR
+    const scoreB = b.rating * Math.log10(b.reviewCount || 1) + MOCK_CTR
+    return scoreB - scoreA
+  })
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[ranking_score]', ranked.map(e => ({
+      slug: e.slug,
+      score: (e.rating * Math.log10(e.reviewCount || 1) + MOCK_CTR).toFixed(3),
+    })))
+  }
+
   const topExperiences = ranked.slice(0, 3)
   const remainingExperiences = ranked.slice(3, 9)
   const faqs = FAQ_DATA[slug] ?? []
