@@ -5,6 +5,7 @@ import { getDestination, getAllDestinationSlugs } from '@/lib/content/destinatio
 import { getExperiences } from '@/lib/data/experiences'
 import { getArticles } from '@/lib/content/articles'
 import { ExperienceCard } from '@/components/ExperienceCard'
+import { ExperienceListTracker } from '@/components/ExperienceListTracker'
 import { ArticleCard } from '@/components/ArticleCard'
 import { siteConfig } from '@/lib/config/site'
 
@@ -141,6 +142,7 @@ export default async function DestinazioneSlugPage({ params }: { params: Promise
               Le migliori gite in barca in {data.meta.name}
             </h2>
             <p className="text-sm text-gray-500 mb-6">Selezionate dalla redazione</p>
+            <ExperienceListTracker destination={slug} count={experiences.length} />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {topExperiences.map((exp, i) => (
                 <ExperienceCard key={exp.slug} experience={exp} index={i} />

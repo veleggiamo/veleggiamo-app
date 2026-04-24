@@ -1,11 +1,5 @@
 import type { Experience } from '@/types/experience'
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void
-  }
-}
-
 function getSessionId(): string {
   if (typeof window === 'undefined') return 'ssr'
   const key = 'vlg_sid'
