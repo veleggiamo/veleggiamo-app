@@ -10,6 +10,8 @@ const DESTINATION_FALLBACK: Record<string, string> = {
   sardegna: '/images/sardegna/pexels-vince-32911045.jpg',
   'costiera-amalfitana': '/images/amalfi/pexels-hellojoshwithers-27025482.jpg',
   venezia: '/images/generiche/pexels-julia-volk-5273458.jpg',
+  puglia: '/images/amalfi/pexels-hellojoshwithers-27025484.jpg',
+  calabria: '/images/amalfi/pexels-magda-ehlers-pexels-35424369.jpg',
 }
 
 function resolveImage(coverImage: string, destination: string): string {
