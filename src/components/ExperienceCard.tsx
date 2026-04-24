@@ -46,6 +46,15 @@ export function ExperienceCard({
     const el = cardRef.current
     if (!el) return
 
+    if (!('IntersectionObserver' in window)) {
+      if (!viewFired.current) {
+        viewFired.current = true
+        trackViewItem(experience, index ?? 0, variantRef.current, CTA_LABELS[variantRef.current])
+        onVisible?.()
+      }
+      return
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !viewFired.current) {

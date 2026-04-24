@@ -3,6 +3,11 @@ import type { Experience } from '@/types/experience'
 const IS_DEV = process.env.NODE_ENV === 'development'
 const PURCHASE_WINDOW_MS = 30 * 60 * 1000
 
+const CTA_IDS: Record<'A' | 'B', string> = {
+  A: 'price_focus',
+  B: 'availability_focus',
+}
+
 function getSessionId(): string {
   if (typeof window === 'undefined') return 'ssr'
   const key = 'vlg_sid'
@@ -83,33 +88,23 @@ export function trackAffiliateClick(
   if (typeof window === 'undefined') return
 
   const destination = normalizeDestination(experience.destination)
-  const page_path = window.location.pathname
   const debug = IS_DEV ? { debug_mode: true } : {}
   const pos = position ?? 0
   const variant = ctaVariant ?? getCtaVariant()
   const item = getItemPayload(experience, pos)
 
-  const selectContentEvent = {
-    experience_slug: experience.slug,
-    destination,
-    source: experience.affiliateSource,
-    position: pos,
-    position_bucket: getPositionBucket(pos),
-    cta_variant: variant,
-    cta_text: ctaText ?? '',
-    page_path,
-    session_id: getSessionId(),
-    device_type: getDeviceType(),
-    traffic_source: getTrafficSource(),
-    outbound: true,
-    ...debug,
-  }
-
-  window.gtag?.('event', 'select_content', selectContentEvent)
-
   window.gtag?.('event', 'select_item', {
     item_list_name: destination,
     items: [item],
+    cta_variant: variant,
+    cta_id: CTA_IDS[variant],
+    cta_text: ctaText ?? '',
+    position: pos,
+    position_bucket: getPositionBucket(pos),
+    page_path: window.location.pathname,
+    session_id: getSessionId(),
+    device_type: getDeviceType(),
+    traffic_source: getTrafficSource(),
     ...debug,
   })
 
@@ -132,15 +127,18 @@ export function trackAffiliateClick(
   }))
 
   if (IS_DEV) {
-    console.log('[cta_click]', { variant, cta_text: ctaText, slug: experience.slug, position: pos })
-    console.log('[select_content]', selectContentEvent)
-    console.log('[select_item]', { item_list_name: destination, item: item.item_id })
+    console.log('[select_item]', { variant, cta_id: CTA_IDS[variant], slug: experience.slug, position: pos })
     if (item.price > 0) console.log('[begin_checkout]', { value: item.price, item: item.item_id })
     else console.log('[begin_checkout] SKIPPED — price is 0')
   }
 }
 
-export function trackViewItem(experience: Experience, index: number, ctaVariant: 'A' | 'B', ctaText?: string): void {
+export function trackViewItem(
+  experience: Experience,
+  index: number,
+  ctaVariant: 'A' | 'B',
+  ctaText?: string,
+): void {
   if (typeof window === 'undefined') return
 
   const item = getItemPayload(experience, index)
@@ -148,13 +146,15 @@ export function trackViewItem(experience: Experience, index: number, ctaVariant:
 
   window.gtag?.('event', 'view_item', {
     ...item,
+    item_list_name: item.item_category,
     cta_variant: ctaVariant,
+    cta_id: CTA_IDS[ctaVariant],
     cta_text: ctaText ?? '',
     ...debug,
   })
 
   if (IS_DEV) {
-    console.log('[view_item]', { item_id: item.item_id, index, cta_variant: ctaVariant, cta_text: ctaText })
+    console.log('[view_item]', { item_id: item.item_id, index, cta_variant: ctaVariant, cta_id: CTA_IDS[ctaVariant] })
   }
 }
 
