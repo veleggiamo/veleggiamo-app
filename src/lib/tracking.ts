@@ -20,16 +20,19 @@ function getSessionId(): string {
 }
 
 export function trackAffiliateClick(experience: Experience, position?: number): void {
-  if (typeof window !== 'undefined') {
-    window.gtag?.('event', 'click_experience', {
-      experience_slug: experience.slug,
-      destination: experience.destination,
-      source: experience.affiliateSource,
-      position: position ?? -1,
-      session_id: getSessionId(),
-    })
+  const event = {
+    experience_slug: experience.slug,
+    destination: experience.destination,
+    source: experience.affiliateSource,
+    position: position ?? 0,
+    session_id: getSessionId(),
   }
+
+  if (typeof window !== 'undefined') {
+    window.gtag?.('event', 'click_experience', event)
+  }
+
   if (process.env.NODE_ENV === 'development') {
-    console.log('[affiliate_click]', experience.slug, experience.affiliateSource, `pos:${position ?? '?'}`)
+    console.log('[affiliate_click]', event)
   }
 }
