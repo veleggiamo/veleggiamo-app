@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import { ClerkProvider } from '@clerk/nextjs'
@@ -53,7 +54,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </>
           )}
 
-          <Analytics />
+          <Suspense fallback={null}>
+            <Analytics />
+          </Suspense>
 
           <Navbar />
           <main className="flex-1">{children}</main>
