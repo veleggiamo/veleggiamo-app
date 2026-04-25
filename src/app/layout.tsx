@@ -32,24 +32,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider>
       <html lang="it" className={inter.variable}>
         <body className="min-h-screen flex flex-col font-sans antialiased">
-          {GA4_ID && (
+          
+          {/* GA4 */}
+          {GA4_ID && process.env.NODE_ENV === 'production' && (
             <>
               <Script
                 src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
                 strategy="afterInteractive"
               />
-              <Script id="ga4-init" strategy="afterInteractive">{`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA4_ID}', { send_page_view: false });
-              `}</Script>
+              <Script id="ga4-init" strategy="afterInteractive">
+                {`
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GA4_ID}', {
+                    send_page_view: false
+                  });
+                `}
+              </Script>
             </>
           )}
+
           <Analytics />
+
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+
         </body>
       </html>
     </ClerkProvider>
