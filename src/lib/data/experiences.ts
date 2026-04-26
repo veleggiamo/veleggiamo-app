@@ -714,6 +714,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'cp2',
+    slug: 'capri-coast-to-coast-grotta-azzurra',
+    title: 'Capri Coast to Coast: scopri l\'isola dal mare con opzione Grotta Azzurra',
+    description: 'Tour in barca da costa a costa di Capri: circumnavigazione dell\'isola, faraglioni e opzione visita alla Grotta Azzurra. Il modo più completo per vedere Capri dal mare.',
+    destination: 'capri',
+    location: 'Capri',
+    price: 'da €25',
+    rating: 4.7,
+    reviewCount: 380,
+    duration: '3 ore',
+    image: '/images/capri/d4223-53180P55.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Capri/Capri-Coast-to-Coast-Discover-the-Island-from-the-Sea-with-Blue-Grotto-Option/d4223-53180P55?pid=VIATOR_PID&mcid=42383&medium=link&campaign=capri-coast', 'viator'),
+    affiliateSource: 'viator',
+    order: 2,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── VENEZIA ───────────────────────────────────────────────────────────────
   {
     id: 'v3',
