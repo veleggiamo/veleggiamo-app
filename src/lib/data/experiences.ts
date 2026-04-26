@@ -419,7 +419,7 @@ const EXPERIENCES: Experience[] = [
     rating: 4.7,
     reviewCount: 280,
     duration: '3 ore',
-    image: '/images/sardegna/pexels-pedrosk-33838878.jpg',
+    image: '/images/sardegna/d4229-473818P1.jpg',
     affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Cagliari/Guided-Boat-Tour-in-the-Devils-Gulf/d4229-473818P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=cagliari-snak', 'viator'),
     affiliateSource: 'viator',
     order: 6,
