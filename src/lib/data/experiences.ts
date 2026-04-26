@@ -695,6 +695,24 @@ const EXPERIENCES: Experience[] = [
 
   // ── VENEZIA ───────────────────────────────────────────────────────────────
   {
+    id: 'v2',
+    slug: 'venezia-laguna-gemme-nascosta',
+    title: 'Scopri le gemme nascoste della laguna di Venezia',
+    description: 'Tour in barca alla scoperta delle isole e dei canali nascosti della laguna veneziana: luoghi segreti lontani dalla folla, storia e paesaggi unici.',
+    destination: 'venezia',
+    location: 'Venezia',
+    price: 'da €45',
+    rating: 4.8,
+    reviewCount: 210,
+    duration: '3 ore',
+    image: '/images/venezia/d522-21441P35.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Venice/Discovering-the-gems-of-the-lagoon/d522-21441P35?pid=VIATOR_PID&mcid=42383&medium=link&campaign=venezia', 'viator'),
+    affiliateSource: 'viator',
+    order: 2,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+  {
     id: 'v1',
     slug: 'gita-barca-venezia-laguna',
     title: 'Tour privato in barca: Murano, Burano e Torcello con guida locale',
@@ -705,7 +723,7 @@ const EXPERIENCES: Experience[] = [
     rating: 4.8,
     reviewCount: 98,
     duration: '4 ore',
-    image: '/images/generiche/pexels-jeffrey-czum-254391-2281793.jpg',
+    image: '/images/venezia/d522-21441P35.jpg',
     affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Venice/Private-Boat-Tour-Murano-Burano-Torcello-with-real-local-guide/d522-446946P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=venezia-murano-guida', 'viator'),
     affiliateSource: 'viator',
     order: 1,
