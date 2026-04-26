@@ -238,6 +238,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 's13',
+    slug: 'isole-pelagie-lampedusa-tour-privato-8-giorni',
+    title: 'Tour privato in barca alle Isole Pelagie (Lampedusa) — 8 giorni',
+    description: 'Crociera privata di 8 giorni alle Isole Pelagie: Lampedusa, Linosa e Lampione. Acque tra le più cristalline del Mediterraneo, tartarughe Caretta caretta e fondali spettacolari.',
+    destination: 'sicilia',
+    location: 'Agrigento',
+    price: 'da €75',
+    rating: 4.9,
+    reviewCount: 120,
+    duration: '8 giorni',
+    image: '/images/sicilia/d205-267463P1.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Sicily/8-Days-Private-Boat-Tour-to-the-Pelagie-Islands/d205-267463P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=lampedusa', 'viator'),
+    affiliateSource: 'viator',
+    order: 13,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── SARDEGNA ──────────────────────────────────────────────────────────────
   {
     id: 'sa1',
@@ -749,6 +768,25 @@ const EXPERIENCES: Experience[] = [
     order: 1,
     featured: true,
     badge: '🔥 Top da Venezia',
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
+  {
+    id: 'lg2',
+    slug: 'lago-garda-crociera-pomeridiana-4-ore',
+    title: 'Crociera pomeridiana sul Lago di Garda — 4 ore',
+    description: 'Crociera di 4 ore nel pomeriggio sul Lago di Garda: Sirmione, Malcesine, Limone sul Garda dal lago. Il modo più rilassante per vedere i borghi più belli del Garda.',
+    destination: 'lago-di-garda',
+    location: 'Lago di Garda',
+    price: 'da €100',
+    rating: 4.7,
+    reviewCount: 380,
+    duration: '4 ore',
+    image: '/images/garda/d27338-38773P6.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Lake-Garda/4-Hour-Afternoon-Sightseeing-Cruise-of-Lake-Garda/d27338-38773P6?pid=VIATOR_PID&mcid=42383&medium=link&campaign=garda-afternoon', 'viator'),
+    affiliateSource: 'viator',
+    order: 2,
+    featured: false,
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
