@@ -427,6 +427,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'sa11',
+    slug: 'maddalena-arcipelago-escursione-palau',
+    title: 'Escursione giornaliera in barca nell\'Arcipelago di La Maddalena da Palau',
+    description: 'Giornata intera in barca nell\'Arcipelago di La Maddalena con partenza da Palau: isole incontaminate, acque turchesi e fondali del Parco Nazionale.',
+    destination: 'sardegna',
+    location: 'Palau',
+    price: 'da €52',
+    rating: 4.7,
+    reviewCount: 480,
+    duration: '8 ore',
+    image: '/images/sardegna/d24293-163950P1.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Sardinia/Daily-excursion-by-boat-in-the-La-Maddalena-Archipelago-Departure-Palau/d24293-163950P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=maddalena-palau', 'viator'),
+    affiliateSource: 'viator',
+    order: 11,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── PUGLIA ────────────────────────────────────────────────────────────────
   {
     id: 'pu1',
