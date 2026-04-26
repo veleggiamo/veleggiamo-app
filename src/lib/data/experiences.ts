@@ -714,6 +714,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'ct2',
+    slug: 'cinque-terre-good-morning-tour-mattina',
+    title: 'Good Morning Cinque Terre: tour in barca al mattino',
+    description: 'Scopri le Cinque Terre al mattino presto in barca: poca folla, luce perfetta e i borghi colorati riflessi in un mare calmo. L\'esperienza più autentica delle Cinque Terre.',
+    destination: 'cinque-terre',
+    location: 'Cinque Terre',
+    price: 'da €119',
+    rating: 4.8,
+    reviewCount: 290,
+    duration: '4 ore',
+    image: '/images/liguria/d22149-157742P4.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Cinque-Terre/Good-morning-Cinque-Terre/d22149-157742P4?pid=VIATOR_PID&mcid=42383&medium=link&campaign=riomaggionre', 'viator'),
+    affiliateSource: 'viator',
+    order: 2,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── CAPRI ─────────────────────────────────────────────────────────────────
   {
     id: 'cp1',
