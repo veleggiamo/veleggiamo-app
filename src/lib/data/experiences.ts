@@ -446,6 +446,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'sa12',
+    slug: 'sardegna-corsica-crociera-vela-maddalena',
+    title: 'Crociera in barca a vela: Arcipelago di La Maddalena e Corsica del Sud',
+    description: 'Crociera giornaliera in barca a vela tra il nord della Sardegna, l\'Arcipelago di La Maddalena e la Corsica del Sud: due paesi, un mare straordinario.',
+    destination: 'sardegna',
+    location: 'La Maddalena',
+    price: 'da €99',
+    rating: 4.9,
+    reviewCount: 560,
+    duration: '8 ore',
+    image: '/images/sardegna/d24293-28557P24.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Sardinia/Sailboat-daily-cruise-between-North-Sardinia-Maddalena-Archipelago-and-South-Corsica/d24293-28557P24?pid=VIATOR_PID&mcid=42383&medium=link&campaign=maddalena-arcipelago', 'viator'),
+    affiliateSource: 'viator',
+    order: 12,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── PUGLIA ────────────────────────────────────────────────────────────────
   {
     id: 'pu1',
