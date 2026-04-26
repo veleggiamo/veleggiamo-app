@@ -2,7 +2,7 @@ import type { Experience } from '@/types/experience'
 
 function buildAffiliateUrl(url: string, source: 'viator' | 'getyourguide'): string {
   if (source === 'viator') {
-    return url.replace('VIATOR_PID', process.env.NEXT_PUBLIC_VIATOR_PID || '')
+    return url.replace('VIATOR_PID', process.env.NEXT_PUBLIC_VIATOR_PID || 'P00298520')
   }
   if (source === 'getyourguide') {
     return url.replace('GYG_PID', process.env.NEXT_PUBLIC_GYG_PID || '')
