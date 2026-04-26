@@ -41,8 +41,14 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-amber-200 py-4 text-center text-xs text-gray-400">
-        © {new Date().getFullYear()} {siteConfig.name}. Tutti i diritti riservati.
+      <div className="border-t border-amber-200 py-4 text-center text-xs text-gray-400 space-y-1">
+        <p>© {new Date().getFullYear()} {siteConfig.name}. Tutti i diritti riservati.</p>
+        <p>
+          Questo sito contiene link affiliati Viator — se acquisti tramite i nostri link riceviamo una commissione senza costi aggiuntivi per te.{' '}
+          <Link href="/termini" className="underline hover:text-gray-600">Termini</Link>
+          {' · '}
+          <Link href="/privacy" className="underline hover:text-gray-600">Privacy & Cookie</Link>
+        </p>
       </div>
     </footer>
   )

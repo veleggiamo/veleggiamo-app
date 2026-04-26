@@ -6,6 +6,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { Analytics } from '@/components/Analytics'
+import { CookieBanner } from '@/components/CookieBanner'
 import { siteConfig } from '@/lib/config/site'
 import './globals.css'
 
@@ -34,21 +35,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="it" className={inter.variable}>
         <body className="min-h-screen flex flex-col font-sans antialiased">
           
-          {/* GA4 */}
+          {/* GA4 — carica solo dopo consenso utente (GDPR) */}
           {GA4_ID && process.env.NODE_ENV === 'production' && (
             <>
+              <Script id="ga4-consent-default" strategy="afterInteractive">
+                {`
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('consent', 'default', {
+                    analytics_storage: 'denied'
+                  });
+                  gtag('js', new Date());
+                  const consent = localStorage.getItem('cookie_consent');
+                  if (consent === 'accepted') {
+                    gtag('consent', 'update', { analytics_storage: 'granted' });
+                  }
+                `}
+              </Script>
               <Script
                 src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
                 strategy="afterInteractive"
               />
               <Script id="ga4-init" strategy="afterInteractive">
                 {`
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${GA4_ID}', {
-                    send_page_view: false
-                  });
+                  gtag('config', '${GA4_ID}', { send_page_view: false });
                 `}
               </Script>
             </>
@@ -61,6 +71,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <Suspense fallback={null}>
+            <CookieBanner />
+          </Suspense>
 
         </body>
       </html>
