@@ -408,6 +408,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'sa6',
+    slug: 'cagliari-golfo-diavolo-snorkeling',
+    title: 'Tour in barca a Cagliari: nuoto, snorkeling e snack',
+    description: 'Escursione in barca da Cagliari con nuoto, snorkeling e snack a bordo: calette del Golfo del Diavolo e acque cristalline del Sud Sardegna.',
+    destination: 'sardegna',
+    location: 'Cagliari',
+    price: 'da €45',
+    rating: 4.7,
+    reviewCount: 280,
+    duration: '3 ore',
+    image: '/images/sardegna/pexels-pedrosk-33838878.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Cagliari/Guided-Boat-Tour-in-the-Devils-Gulf/d4229-473818P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=cagliari-snak', 'viator'),
+    affiliateSource: 'viator',
+    order: 6,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── PUGLIA ────────────────────────────────────────────────────────────────
   {
     id: 'pu1',
