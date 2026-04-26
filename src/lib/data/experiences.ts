@@ -769,6 +769,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'ca5',
+    slug: 'capri-tour-privato-barca-isola',
+    title: 'Capri: tour privato in barca intorno all\'isola',
+    description: 'Giro privato in barca intorno all\'isola di Capri: Grotta Azzurra, Faraglioni, archi naturali e calette segrete. Skipper dedicato, itinerario personalizzabile.',
+    destination: 'capri',
+    location: 'Capri',
+    price: 'da €40',
+    rating: 4.8,
+    reviewCount: 210,
+    duration: '3 ore',
+    image: '/images/capri/d4223-342540P1.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Capri/Private-Boat-Tour-on-the-Island-of-Capri/d4223-342540P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=capri-caprese', 'viator'),
+    affiliateSource: 'viator',
+    order: 5,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── LAGO DI GARDA ─────────────────────────────────────────────────────────
   {
     id: 'lg1',
