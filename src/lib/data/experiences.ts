@@ -788,6 +788,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'ca6',
+    slug: 'capri-tour-barca-con-skipper',
+    title: 'Capri: tour in barca con skipper dedicato',
+    description: 'Gita in barca intorno a Capri con skipper privato: Grotta Azzurra, Faraglioni, Villa Jovis e le calette più belle dell\'isola. Esperienza esclusiva con guida a bordo.',
+    destination: 'capri',
+    location: 'Capri',
+    price: 'da €159',
+    rating: 4.9,
+    reviewCount: 175,
+    duration: '5 ore',
+    image: '/images/capri/d4223-334727P1.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Capri/Capri-Island-Boat-Tour-with-Skipper/d4223-334727P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=capri-skipper', 'viator'),
+    affiliateSource: 'viator',
+    order: 6,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── LAGO DI GARDA ─────────────────────────────────────────────────────────
   {
     id: 'lg1',
