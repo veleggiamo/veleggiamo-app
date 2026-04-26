@@ -693,6 +693,27 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  // ── CINQUE TERRE ──────────────────────────────────────────────────────────
+  {
+    id: 'ct1',
+    slug: 'cinque-terre-barca-treno-classico',
+    title: 'Cinque Terre classico: tour in barca e treno',
+    description: 'Il modo migliore per vedere le Cinque Terre: in barca lungo la costa con soste ai borghi colorati, poi ritorno in treno. Esperienza completa in un giorno.',
+    destination: 'cinque-terre',
+    location: 'Cinque Terre',
+    price: 'da €80',
+    rating: 4.7,
+    reviewCount: 640,
+    duration: '5 ore',
+    image: '/images/liguria/d22149-143122P1.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Cinque-Terre/Classic-Cinque-Terre-by-boat-and-train/d22149-143122P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=cinque-terre', 'viator'),
+    affiliateSource: 'viator',
+    order: 1,
+    featured: true,
+    badge: '⛵ Tour classico',
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── CAPRI ─────────────────────────────────────────────────────────────────
   {
     id: 'cp1',
