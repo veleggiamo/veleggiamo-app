@@ -615,6 +615,25 @@ const EXPERIENCES: Experience[] = [
     featured: false,
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
+  {
+    id: 'cl5',
+    slug: 'tropea-capo-vaticano-tramonto-aperitivo',
+    title: 'Escursione al tramonto da Tropea a Capo Vaticano con aperitivo',
+    description: 'Navigazione serale da Tropea a Capo Vaticano: tramonto sulla Costa degli Dei, calette dorate e aperitivo a bordo.',
+    destination: 'calabria',
+    location: 'Tropea',
+    price: 'da €35',
+    rating: 4.8,
+    reviewCount: 180,
+    duration: '3 ore',
+    image: '/images/calabria/tropea-d33165-5560407P2.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Tropea/Sunset-excursion-from-Tropea-to-Capo-Vaticano-with-aperitif/d33165-5560407P2?pid=VIATOR_PID&mcid=42383&medium=link&campaign=tropea-aperitif', 'viator'),
+    affiliateSource: 'viator',
+    order: 5,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── COSTIERA AMALFITANA ───────────────────────────────────────────────────
   {
     id: 'ca1',
