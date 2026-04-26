@@ -19,7 +19,7 @@ const EXPERIENCES: Experience[] = [
     description: 'Acque tra le più trasparenti della Sicilia, grotte marine e fondali storici della Battaglia delle Egadi.',
     destination: 'sicilia',
     location: 'Trapani',
-    price: 'da €75',
+    price: 'da €90',
     rating: 4.7,
     reviewCount: 10000,
     duration: '8 ore',
