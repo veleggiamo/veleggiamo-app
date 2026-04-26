@@ -390,25 +390,6 @@ const EXPERIENCES: Experience[] = [
   },
 
   {
-    id: 'sa6',
-    slug: 'tavolara-snorkeling-sardegna',
-    title: 'Snorkeling e coste del Sud Sardegna in barca storica',
-    description: 'Tour in barca lungo le coste meridionali della Sardegna: calette, snorkeling e paesaggi marini incontaminati.',
-    destination: 'sardegna',
-    location: 'Cagliari',
-    price: 'da €80',
-    rating: 4.6,
-    reviewCount: 180,
-    duration: '6 ore',
-    image: '/images/sardegna/pexels-pedrosk-33838878.jpg',
-    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Cagliari/Visit-the-Coasts-of-Southern-Sardinia-aboard-an-iconic-boat/d4229-362256P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=tavolara-snorkeling', 'viator'),
-    affiliateSource: 'viator',
-    order: 6,
-    featured: false,
-    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
-  },
-
-  {
     id: 'sa10',
     slug: 'sardegna-avvistamento-delfini-snorkeling',
     title: 'Tour avvistamento delfini e snorkeling in Sardegna',
@@ -615,25 +596,6 @@ const EXPERIENCES: Experience[] = [
     featured: false,
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
-  {
-    id: 'cl5',
-    slug: 'riace-costa-dei-gelsomini-barca',
-    title: 'Tour in barca a Tropea: sea sports e snorkeling fino a 12 passeggeri',
-    description: 'Escursione in barca a Tropea con attrezzatura sea sports e snorkeling inclusi: calette, fondali e Costa degli Dei fino a 12 passeggeri.',
-    destination: 'calabria',
-    location: 'Tropea',
-    price: 'da €40',
-    rating: 4.5,
-    reviewCount: 140,
-    duration: '3 ore',
-    image: '/images/generiche/pexels-melvinwahlin-2405648.jpg',
-    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Tropea/SEA-SPORTS-Boat-tours-whit-snorkeling-Rental-Boat/d33165-72682P1?pid=VIATOR_PID&mcid=42383&medium=link&campaign=tropea-12-passeggeri', 'viator'),
-    affiliateSource: 'viator',
-    order: 5,
-    featured: false,
-    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
-  },
-
   // ── COSTIERA AMALFITANA ───────────────────────────────────────────────────
   {
     id: 'ca1',
