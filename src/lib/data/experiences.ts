@@ -712,6 +712,27 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  // ── LAGO DI GARDA ─────────────────────────────────────────────────────────
+  {
+    id: 'lg1',
+    slug: 'venezia-verona-sirmione-lago-garda-crociera',
+    title: 'Da Venezia: Verona, Sirmione e crociera sul Lago di Garda',
+    description: 'Giornata intera da Venezia a Verona, Sirmione e Lago di Garda con crociera sul lago: tre destinazioni iconiche del Nord Italia in un solo giorno.',
+    destination: 'lago-di-garda',
+    location: 'Venezia',
+    price: 'da €87',
+    rating: 4.6,
+    reviewCount: 1240,
+    duration: '12 ore',
+    image: '/images/garda/d522-6404P87.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Venice/From-Venice-Verona-Sirmione-and-Lake-Garda-With-Boat-Cruise/d522-6404P87?pid=VIATOR_PID&mcid=42383&medium=link&campaign=garda', 'viator'),
+    affiliateSource: 'viator',
+    order: 1,
+    featured: true,
+    badge: '🔥 Top da Venezia',
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── CINQUE TERRE ──────────────────────────────────────────────────────────
   {
     id: 'ct1',
