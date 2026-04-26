@@ -24,7 +24,7 @@ const EXPERIENCES: Experience[] = [
     reviewCount: 10000,
     duration: '8 ore',
     image: '/images/sicilia/d23401-334472P3.jpg',
-    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Trapani/One-Day-Boat-Tour-to-Favignana-and-Levanzo/d23401-334472P3?pid=VIATOR_PID&mcid=42383&medium=link&campaign=trapani-favignana', 'viator'),
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Trapani/One-Day-Boat-Tour-to-Favignana-and-Levanzo/d23401-334472P3?pid=VIATOR_PID&mcid=42383&medium=link&campaign=egadi-favignana', 'viator'),
     affiliateSource: 'viator',
     order: 1,
     featured: true,
