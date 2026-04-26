@@ -674,6 +674,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'ca3',
+    slug: 'costiera-amalfitana-speedboat-barca-legno',
+    title: 'Escursione in Costiera Amalfitana in speedboat o barca tradizionale',
+    description: 'Scopri la Costiera Amalfitana a bordo di uno speedboat o di una classica barca in legno: grotte, calette e i panorami più belli d\'Italia dal mare.',
+    destination: 'costiera-amalfitana',
+    location: 'Positano',
+    price: 'da €70',
+    rating: 4.7,
+    reviewCount: 450,
+    duration: '4 ore',
+    image: '/images/amalfi/d33602-6405P11.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Positano/Amalfi-Coast-Excursion-by-Speed-Boat-or-Traditional-Wooden-Boat/d33602-6405P11?pid=VIATOR_PID&mcid=42383&medium=link&campaign=amalfi-privato', 'viator'),
+    affiliateSource: 'viator',
+    order: 3,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── VENEZIA ───────────────────────────────────────────────────────────────
   {
     id: 'v1',
