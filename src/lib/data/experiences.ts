@@ -695,6 +695,24 @@ const EXPERIENCES: Experience[] = [
 
   // ── VENEZIA ───────────────────────────────────────────────────────────────
   {
+    id: 'v3',
+    slug: 'venezia-gondola-canali-acquei',
+    title: 'Scopri i canali di Venezia in gondola',
+    description: 'Navigazione in gondola tra i canali veneziani: palazzi storici, ponti antichi e la magia dei vicoli d\'acqua lontano dalle rotte turistiche.',
+    destination: 'venezia',
+    location: 'Venezia',
+    price: 'da €40',
+    rating: 4.9,
+    reviewCount: 380,
+    duration: '1 ora',
+    image: '/images/venezia/d522-21441P6.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Venice/Discovering-Venetian-Waterways-by-Gondola/d522-21441P6?pid=VIATOR_PID&mcid=42383&medium=link&campaign=venezia-canale', 'viator'),
+    affiliateSource: 'viator',
+    order: 3,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+  {
     id: 'v2',
     slug: 'venezia-laguna-gemme-nascosta',
     title: 'Scopri le gemme nascoste della laguna di Venezia',
