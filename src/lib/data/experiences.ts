@@ -693,6 +693,27 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  // ── CAPRI ─────────────────────────────────────────────────────────────────
+  {
+    id: 'cp1',
+    slug: 'capri-tour-barca-giornata-visita',
+    title: 'Tour in barca a Capri con visita all\'isola (giornata intera)',
+    description: 'Giornata intera in barca a Capri da Positano: circumnavigazione, Grotta Azzurra, faraglioni e visita all\'isola. L\'esperienza completa di Capri.',
+    destination: 'capri',
+    location: 'Positano',
+    price: 'da €236',
+    rating: 4.8,
+    reviewCount: 520,
+    duration: '8 ore',
+    image: '/images/capri/d33602-334727P2.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Positano/Full-Day-Boat-Tour-of-Capri-with-City-Visit/d33602-334727P2?pid=VIATOR_PID&mcid=42383&medium=link&campaign=capri', 'viator'),
+    affiliateSource: 'viator',
+    order: 1,
+    featured: true,
+    badge: '🔥 N°1 a Capri',
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── VENEZIA ───────────────────────────────────────────────────────────────
   {
     id: 'v3',
