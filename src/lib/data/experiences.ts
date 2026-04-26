@@ -655,6 +655,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'ca2',
+    slug: 'positano-tour-barca-tramonto',
+    title: 'Tour in barca al tramonto a Positano (piccolo gruppo)',
+    description: 'Escursione serale in barca a Positano in piccolo gruppo: calette dorate, luci del tramonto sulla Costiera Amalfitana e relax sul mare.',
+    destination: 'costiera-amalfitana',
+    location: 'Positano',
+    price: 'da €55',
+    rating: 4.8,
+    reviewCount: 320,
+    duration: '3 ore',
+    image: '/images/positano/d33602-152010P13.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Positano/Small-Group-Tour-to-Positano-by-Boat-at-Sunset/d33602-152010P13?pid=VIATOR_PID&mcid=42383&medium=link&campaign=positano-tramonto', 'viator'),
+    affiliateSource: 'viator',
+    order: 2,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── VENEZIA ───────────────────────────────────────────────────────────────
   {
     id: 'v1',
