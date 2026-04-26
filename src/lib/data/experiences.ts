@@ -750,6 +750,25 @@ const EXPERIENCES: Experience[] = [
     cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
   },
 
+  {
+    id: 'ca4',
+    slug: 'capri-giro-isola-barca-nuoto-limoncello',
+    title: 'Capri: giro dell\'isola in barca con nuoto e limoncello',
+    description: 'Tour in piccolo gruppo intorno all\'isola di Capri: Grotta Azzurra, Faraglioni, Grotta Verde. Soste per nuotare nelle acque cristalline e limoncello artigianale a bordo.',
+    destination: 'capri',
+    location: 'Capri',
+    price: 'da €89',
+    rating: 4.8,
+    reviewCount: 560,
+    duration: '4 ore',
+    image: '/images/capri/d4223-51921P4.jpg',
+    affiliateUrl: buildAffiliateUrl('https://www.viator.com/tours/Capri/Small-Group-Capri-Island-Boat-Ride-with-Swimming-and-Limoncello/d4223-51921P4?pid=VIATOR_PID&mcid=42383&medium=link&campaign=capri-limoncello', 'viator'),
+    affiliateSource: 'viator',
+    order: 4,
+    featured: false,
+    cancellation: 'Cancellazione gratuita nella maggior parte dei casi',
+  },
+
   // ── LAGO DI GARDA ─────────────────────────────────────────────────────────
   {
     id: 'lg1',
